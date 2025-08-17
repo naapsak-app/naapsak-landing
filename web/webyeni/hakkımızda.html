@@ -27,8 +27,11 @@
       box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     }
     header img { height: 50px; }
+    nav {
+      display: flex;
+      gap: 16px;
+    }
     nav a {
-      margin: 0 16px;
       text-decoration: none;
       color: #000;
       font-weight: 600;
@@ -37,10 +40,19 @@
     nav a.active { color: #ff6600; font-weight: 700; }
 
     /* ABOUT */
-    .about { padding: 120px 10% 100px; text-align: center; }
-    .about-container { display: flex; align-items: center; justify-content: center; gap: 1px; margin-bottom: 40px; }
-    .bizkimiz { height: 200px; margin-top: -10px; }
-    .naapsak-icon { height: 70px; margin-right: 80px; margin-top: 70px; }
+    .about { 
+      padding: 180px 10% 100px; /* header altında başlasın */
+      text-align: center; 
+    }
+    .about-container { 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      gap: 15px; 
+      margin-bottom: 40px; 
+    }
+    .bizkimiz { height: 200px; }
+    .naapsak-icon { height: 70px; }
     .about-text { max-width: 900px; font-size: 19px; line-height: 1.8; color: #333; margin: 0 auto; text-align: left; }
     .about-text p { margin-bottom: 16px; }
     .about-text p:nth-child(2) { font-size: 24px; font-weight: 700; }
@@ -67,69 +79,49 @@
     .footer-phone { position: absolute; bottom: 10px; right: 5%; width: 250px; height: auto; }
     .footer-phone img { display: block; width: 100%; object-fit: cover; }
 
-/* 📱 Mobil düzenleme (iPhone 13 dahil 430px ve altı ekranlar) */
-/* 🔧 Mobil düzeltmeler */
-@media (max-width: 768px) {
-  /* HEADER */
-  header {
-    flex-direction: column;
-    padding: 12px 5%;
-    gap: 8px;
-  }
-  nav {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center; /* menüyü ortala */
-    gap: 10px;
-  }
-  nav a {
-    font-size: 14px;
-    margin: 4px 6px;
-  }
-  header img {
-    height: 38px;
-  }
-  /* ABOUT */
-  .about-container {
-    flex-direction: row; /* mobilde de yan yana kalsın */
-    justify-content: center;
-    align-items: center;
-    gap: 10px; /* aralarındaki mesafe */
-  }
-  .bizkimiz {
-    max-height: 100px; /* yazı görselini küçült */
-    height: auto;
-    width: auto;
-  }
-  .naapsak-icon {
-    height: 40px; /* N iconu küçült */
-    margin: 0;
-  }
-}
+    /* 📱 Tablet & Mobil */
+    @media (max-width: 768px) {
+      /* HEADER */
+      header {
+        flex-direction: column;
+        padding: 12px 6%;
+        gap: 10px;
+      }
+      nav {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      nav a {
+        font-size: 14px;
+        margin: 4px 6px;
+      }
+      header img { height: 38px; }
 
-  .about-text {
-    text-align: center;
-    font-size: 15px;
-    line-height: 1.5;
-  }
+      /* ABOUT */
+      .about { padding-top: 220px; } /* mobilde header daha uzun */
+      .about-container { 
+        flex-direction: row; /* yan yana kalsın */
+        justify-content: center;
+        gap: 10px;
+      }
+      .bizkimiz { max-height: 100px; height: auto; }
+      .naapsak-icon { height: 45px; }
+      .about-text { text-align: center; font-size: 15px; line-height: 1.5; }
 
-  /* FOOTER */
-  .footer-container {
-    flex-direction: column;
-    align-items: center;  /* sola kaymayı engelle */
-    text-align: center;
-    gap: 20px;
-  }
-  .footer-socials {
-    justify-content: center; /* sosyal medya ikonlarını ortala */
-  }
-  .footer-copy {
-    text-align: center;
-  }
-  .footer-phone {
-    display: none; /* mobilde gizle */
-  }
-}
+      /* FOOTER */
+      .footer-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .footer-socials {
+        justify-content: center;
+      }
+      .footer-copy {
+        text-align: center;
+      }
+      .footer-phone { display: none; }
+    }
   </style>
 </head>
 <body>
