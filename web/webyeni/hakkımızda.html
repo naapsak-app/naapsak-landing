@@ -37,7 +37,7 @@
     nav a.active { color: #ff6600; font-weight: 700; }
 
     /* ABOUT */
-    .about { padding: 120px 10% 100px; text-align: center; }
+    .about { padding: 140px 10% 100px; text-align: center; }
     .about-container {
       display: flex;
       align-items: center;
@@ -45,8 +45,8 @@
       gap: 40px;
       margin-bottom: 40px;
     }
-    .bizkimiz { height: 200px; }
-    .naapsak-icon { height: 70px; }
+    .bizkimiz { height: 180px; }
+    .naapsak-icon { height: 65px; }
     .about-text {
       max-width: 900px;
       font-size: 19px;
@@ -106,11 +106,11 @@
     @media (max-width: 992px) {
       header { padding: 15px 6%; }
       nav a { margin: 0 12px; font-size: 15px; }
-      .about { padding: 100px 6% 80px; }
-      .about-text { font-size: 17px; }
+      .about { padding: 120px 6% 80px; }
+      .about-text { font-size: 17px; text-align: center; }
       .manifesto { padding: 60px 8%; }
-      .manifesto h2 { font-size: 26px; }
-      .manifesto p { font-size: 16px; }
+      .manifesto h2 { font-size: 26px; text-align: center; }
+      .manifesto p { font-size: 16px; text-align: justify; }
     }
 
     /* 📱 Telefon */
@@ -119,19 +119,21 @@
       header img { height: 40px; }
       nav a { margin: 6px; font-size: 14px; display: inline-block; }
 
+      .about { padding: 110px 6% 60px; }
       .about-container {
         flex-direction: row;
         justify-content: center;
-        gap: 20px;
+        gap: 15px;
+        margin-bottom: 25px;
       }
-      .bizkimiz { height: 100px; }
-      .naapsak-icon { height: 45px; }
+      .bizkimiz { height: 90px; }
+      .naapsak-icon { height: 40px; }
 
-      .about-text { font-size: 16px; text-align: center; line-height: 1.6; }
+      .about-text { font-size: 15px; text-align: center; line-height: 1.6; }
 
       .manifesto { padding: 40px 6%; }
-      .manifesto h2 { font-size: 24px; text-align: center; }
-      .manifesto p { font-size: 15px; text-align: justify; }
+      .manifesto h2 { font-size: 22px; text-align: center; }
+      .manifesto p { font-size: 14px; text-align: justify; }
     }
   </style>
 </head>
