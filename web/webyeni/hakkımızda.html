@@ -68,77 +68,68 @@
     .footer-phone img { display: block; width: 100%; object-fit: cover; }
 
 /* 📱 Mobil düzenleme (iPhone 13 dahil 430px ve altı ekranlar) */
-@media (max-width: 480px) {
+/* 🔧 Mobil düzeltmeler */
+@media (max-width: 768px) {
+  /* HEADER */
   header {
     flex-direction: column;
-    padding: 12px 4%;
+    padding: 12px 5%;
     gap: 8px;
   }
   nav {
+    display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    text-align: center;
+    justify-content: center; /* menüyü ortala */
+    gap: 10px;
   }
   nav a {
-    margin: 4px 8px;
     font-size: 14px;
+    margin: 4px 6px;
   }
   header img {
-    height: 36px;
+    height: 38px;
   }
-
-  .about {
-    padding: 80px 5% 50px;
-  }
+  /* ABOUT */
   .about-container {
-    flex-direction: column;
-    gap: 12px;
+    flex-direction: row; /* mobilde de yan yana kalsın */
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* aralarındaki mesafe */
   }
   .bizkimiz {
+    max-height: 100px; /* yazı görselini küçült */
     height: auto;
-    max-width: 90%;
-    margin: 0 auto;
+    width: auto;
   }
   .naapsak-icon {
-    height: 50px;
-    margin: 0 auto;
-  }
-  .about-text {
-    font-size: 15px;
-    text-align: center;
-    line-height: 1.5;
-  }
-
-  .about-devices {
-    margin-top: 40px;
-    width: 100%;
-  }
-
-  .manifesto {
-    padding: 40px 5%;
-  }
-  .manifesto h2 {
-    font-size: 22px;
-    text-align: center;
-  }
-  .manifesto p {
-    font-size: 14px;
-    text-align: justify;
-  }
-
-  .footer-container {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-  .footer-logo-img {
-    height: 40px;
-  }
-  .footer-phone {
-    display: none; /* küçük ekranda gizle */
+    height: 40px; /* N iconu küçült */
+    margin: 0;
   }
 }
 
+  .about-text {
+    text-align: center;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  /* FOOTER */
+  .footer-container {
+    flex-direction: column;
+    align-items: center;  /* sola kaymayı engelle */
+    text-align: center;
+    gap: 20px;
+  }
+  .footer-socials {
+    justify-content: center; /* sosyal medya ikonlarını ortala */
+  }
+  .footer-copy {
+    text-align: center;
+  }
+  .footer-phone {
+    display: none; /* mobilde gizle */
+  }
+}
   </style>
 </head>
 <body>
