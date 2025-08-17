@@ -42,11 +42,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 40px;
+      gap: 20px;
       margin-bottom: 40px;
     }
-    .bizkimiz { height: 180px; }
-    .naapsak-icon { height: 65px; }
+    .bizkimiz { height: 160px; }
+    .naapsak-icon { height: 55px; }
+
     .about-text {
       max-width: 900px;
       font-size: 19px;
@@ -58,6 +59,7 @@
     .about-text p { margin-bottom: 16px; }
     .about-text p:nth-child(2) { font-size: 24px; font-weight: 700; }
     .about-text b { font-weight: 700; color: #000; }
+
     .about-devices {
       max-width: 900px;
       width: 100%;
@@ -123,17 +125,20 @@
       .about-container {
         flex-direction: row;
         justify-content: center;
-        gap: 15px;
+        align-items: center;
+        gap: 10px;
         margin-bottom: 25px;
       }
-      .bizkimiz { height: 90px; }
-      .naapsak-icon { height: 40px; }
+      .bizkimiz { height: 80px; }
+      .naapsak-icon { height: 35px; margin-top: 0; }
 
       .about-text { font-size: 15px; text-align: center; line-height: 1.6; }
 
       .manifesto { padding: 40px 6%; }
       .manifesto h2 { font-size: 22px; text-align: center; }
       .manifesto p { font-size: 14px; text-align: justify; }
+
+      .footer-phone { display: none; }
     }
   </style>
 </head>
@@ -173,18 +178,8 @@
   <section class="manifesto">
     <div class="manifesto-container">
       <h2>Bizim Hikayemiz</h2>
-      
-      <p>Naapsak, hayatın “Ne yesek?”, “Nereye gitsek?”, “Ne yapsak?” sorularına tek tıkla cevap veren, rotanı çizen, indirim katan ve günü planlayan şehirli dostundur. Kararsızlığın dibine vurmuş WhatsApp gruplarından, “fark etmez” deyip sonra surat asanlardan, Google’da 14 sekme açıp yine bildiğin yere gidenlerden ilham aldık. Dedik ki: Artık yeter, plan bizden sorulsun.</p>
-
-      <p>Misyonumuz basit: Kararsızlığı yok etmek, burnunun dibindeki güzellikleri fark ettirmek, yerel işletmeleri öne çıkarmak. Naapsak, hem şehri yeniden keşfetmeni sağlıyor hem de sana en uygun mekan, etkinlik ve aktiviteleri tek ekranda sunuyor. Yeme, içme, gezme ve eğlenme seçeneklerini bir araya getirirken, indirimleri yakalayıp cebini de koruyor.</p>
-
-      <p>İstanbul’un sahillerinden Kars’ın yaylalarına, Türkiye’nin dört bir yanında “plan yapmak” kelimesinin karşısına Naapsak’ı yazdırmak vizyonumuz. Bizce hayat çok kısa, kötü bir kahvaltı için erken kalkmaya değmez. “Buralarda bir şey yok” diyenlere inanmıyoruz, çünkü her köşede keşfedilmeyi bekleyen güzellikler var.</p>
-
-      <p>Bizim işimiz sadece öneri yapmak değil, kararsızlık ekonomisini lobisini bitirmek. Naapsak, klasik “arama” mantığının ötesine geçer. Çünkü bizde öneriler algoritmadan ibaret değildir; gerçek kullanıcı puanları, yorumlar, topluluk deneyimleri ve yerel işletmelerin sunduğu avantajlarla desteklenir. Böylece gördüğün şey, gerçekten gidebileceğin, deneyimleyebileceğin ve memnun kalacağın şeydir.</p>
-
-      <p>Biz mizahı seviyoruz. Çünkü plan yaparken gülmek, plana başlamanın yarısıdır. Naapsak’ta gördüğün dil, hem eğlenceli hem samimi hem de güven verici olacak şekilde tasarlandı.</p>
-
-      <p>Kısacası, Naapsak cebinde taşıdığın, sana özel bir şehir rehberi. Karar veremediğinde kurtarıcın, keşfetmek istediğinde pusulan, keyif almak istediğinde en iyi arkadaşın. Plan bizden, keyif senden.</p>
+      <p>Naapsak, hayatın “Ne yesek?”, “Nereye gitsek?”, “Ne yapsak?” sorularına tek tıkla cevap veren...</p>
+      <!-- diğer metinler buraya -->
     </div>
   </section>
 
@@ -197,9 +192,9 @@
         Bize ulaş: <a href="mailto:iletisim@naapsakapp.com">iletisim@naapsakapp.com</a></p>
         <div class="footer-socials">
           <a href="https://www.linkedin.com/company/naapsak/" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn"></a>
-          <a href="https://www.instagram.com/naapsak.app?igsh=MXB5djB1c3o5OTlmbA==" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram"></a>
-          <a href="https://www.tiktok.com/@naapsak.app?_t=ZS-8yxfJ4D1YCP&_r=1" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok"></a>
-          <a href="https://x.com/naapsakmobile?s=21" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968958.png" alt="X"></a>
+          <a href="https://www.instagram.com/naapsak.app" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram"></a>
+          <a href="https://www.tiktok.com/@naapsak.app" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok"></a>
+          <a href="https://x.com/naapsakmobile" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968958.png" alt="X"></a>
         </div>
         <p class="footer-copy">© 2025 Naapsak | Tüm Hakları Saklıdır</p>
       </div>
