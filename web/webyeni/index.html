@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Naapsak | Anasayfa</title>
+  <link rel="icon" type="image/png" href="png/Naapsak Icon - Turuncu@2x.png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body { background: #fff; color: #333; opacity: 0; transition: opacity 0.4s ease; }
+    .fade-in { opacity: 1; }
+    .fade-out { opacity: 0; }
+
+    /* HEADER */
+    header { display: flex; justify-content: space-between; align-items: center; padding: 20px 10%; background: #fff; position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    header img { height: 50px; }
+    nav a { margin: 0 18px; text-decoration: none; color: #000; font-weight: 600; font-size: 17px; }
+    nav a:first-child { font-weight: 700; color: #ff6600; }
+
+    /* BANNER */
+    .banner { background: #ff6600; color: #fff; text-align: center; padding: 12px 20px; font-size: 18px; font-weight: 600; position: fixed; top: 100px; left: 0; width: 100%; z-index: 999; transition: transform 0.4s ease, opacity 0.4s ease; }
+    .banner.hide { transform: translateY(-100%); opacity: 0; }
+
+    /* HERO */
+    .hero { display: flex; justify-content: space-between; align-items: center; padding: 180px 10% 40px; gap: 30px; }
+    .hero-text { flex: 1; }
+    .hero-text h1 { font-size: 44px; font-weight: 700; line-height: 1.1; color: #ff9d00; }
+    .hero-text p { margin-top: 16px; font-size: 18px; line-height: 1.3; color: #444; }
+    .scroll-btn { display: inline-block; margin-top: 25px; padding: 12px 28px; background: #ff6600; color: #fff; font-weight: 600; font-size: 18px; border-radius: 30px; cursor: pointer; transition: 0.3s; }
+    .scroll-btn:hover { background: #e65500; transform: scale(1.05); }
+    .hero-img { flex: 1; text-align: right; }
+    .hero-img img { max-width: 85%; }
+
+    /* TABS */
+    .tabs { display: flex; justify-content: center; gap: 80px; padding: 20px 0; border-bottom: 2px solid #f0f0f0; background: #fff; flex-wrap: wrap; }
+    .tabs button { background: none; border: none; font-size: 18px; cursor: pointer; padding: 10px 20px; display: flex; align-items: center; gap: 8px; position: relative; font-weight: 600; color: #000; }
+    .tabs button img { width: 28px; height: 28px; }
+    .tabs button::after { content: ""; position: absolute; bottom: -6px; left: 0; width: 100%; height: 3px; background: transparent; border-radius: 3px; transition: background 0.3s; }
+    .tabs button.active.orange { color: #ff6600; }
+    .tabs button.active.blue { color: #2c6db6; }
+    .tabs button.active.purple { color: #8e44ad; }
+    .tabs button.active.orange::after { background: #ff6600; }
+    .tabs button.active.blue::after { background: #2c6db6; }
+    .tabs button.active.purple::after { background: #8e44ad; }
+
+    .tab-content { display: none; justify-content: center; align-items: center; gap: 50px; margin: 60px auto; max-width: 1200px; padding: 0 10%; flex-wrap: wrap; }
+    .tab-content.active { display: flex; }
+    .tab-content img.phone { width: 300px; border-radius: 25px; box-shadow: 0 25px 50px rgba(0,0,0,0.3); opacity: 0; transform: translateX(-50px) scale(0.9); animation: phoneIn 0.7s ease forwards; }
+    @keyframes phoneIn { to { opacity: 1; transform: translateX(0) scale(1); } }
+
+    /* QUOTE BOX */
+    .quote-box { flex: 1; padding: 40px; background: #fff; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); position: relative; text-align: left; min-height: 260px; opacity: 0; transform: translateY(20px); animation: fadeInUp 0.8s ease forwards; animation-delay: 0.2s; }
+    @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+    .quote-box img.quote-top { position: absolute; top: -40px; left: -40px; width: 130px; opacity: 0.9; }
+    .quote-box img.quote-bottom { position: absolute; bottom: -40px; right: -40px; width: 130px; opacity: 0.9; }
+    .quote-box h2.orange { color: #ff6600; }
+    .quote-box h2.blue { color: #2c6db6; }
+    .quote-box h2.purple { color: #8e44ad; }
+    .quote-box h2 { font-size: 30px; margin-bottom: 12px; }
+    .quote-box h3 { font-size: 20px; font-weight: 600; margin-bottom: 20px; color: #222; }
+    .quote-box p { font-size: 17px; color: #444; line-height: 1.5; }
+
+    /* FOOTER */
+    footer { background: #f5f5f5; padding: 20px 8%; position: relative; }
+    .footer-container { display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; flex-wrap: wrap; }
+    .footer-left { max-width: 550px; }
+    .footer-logo-img { height: 50px; margin-bottom: 15px; }
+    .footer-left p { font-size: 15px; color: #444; margin-bottom: 16px; }
+    .footer-left a { color: #000; font-weight: 600; text-decoration: none; }
+    .footer-socials { display: flex; gap: 16px; margin-bottom: 12px; }
+    .footer-socials img { width: 28px; height: 28px; filter: grayscale(100%); transition: 0.3s; }
+    .footer-socials img:hover { filter: grayscale(0%); transform: scale(1.15); }
+    .footer-copy { font-size: 13px; color: #666; }
+    .footer-phone { position: absolute; bottom: 10px; right: 5%; width: 250px; }
+    .footer-phone img { display: block; width: 100%; object-fit: cover; }
+
+    /* 📱 RESPONSIVE */
+    @media (max-width: 768px) {
+      header { flex-direction: column; padding: 10px 5%; }
+      nav a { margin: 8px; font-size: 15px; }
+      .hero { flex-direction: column; text-align: center; padding: 140px 5% 40px; }
+      .hero-text h1 { font-size: 28px; }
+      .hero-text p { font-size: 16px; }
+      .hero-img img { max-width: 90%; margin-top: 20px; }
+      .tabs { gap: 20px; flex-wrap: wrap; }
+      .tab-content { flex-direction: column; text-align: center; }
+      .quote-box { padding: 25px; min-height: auto; }
+      .quote-box h2 { font-size: 24px; }
+      .quote-box h3 { font-size: 18px; }
+      .quote-box p { font-size: 15px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <a href="index.html"><img src="png/Naapsak Logo (2)-03.png" alt="Naapsak Logo"></a>
+    <nav>
+      <a href="index.html">Anasayfa</a>
+      <a href="hakkımızda.html">Hakkımızda</a>
+      <a href="kobi.html">Kobi</a>
+      <a href="sss.html">SSS</a>
+      <a href="bizeulasin.html">Bize Ulaşın</a>
+    </nav>
+  </header>
+
+  <!-- 🚀 Banner -->
+  <div class="banner">🚀 Naapsak uygulaması çok yakında sizlerle!</div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Ne Yapmak İstediğini Bilmeyenlerin Uygulaması</h1>
+      <p>“Ne yapsak?” diye sorup sonra herkesin sessizleştiği an var ya...<br> İşte orada devreye <b>Naapsak</b> girer.</p>
+      <div class="scroll-btn">⬇ Keşfet</div>
+    </div>
+    <div class="hero-img">
+      <img src="png/telefonmockup.png" alt="Telefon Mockup">
+    </div>
+  </section>
+
+  <!-- TABS -->
+  <section id="tabs-section">
+    <div class="tabs">
+      <button id="btn-neyesek" class="active orange" onclick="showSection('neyesek')">
+        <img src="png/hamburger.svg" alt="Ne Yesek?"> Ne Yesek?
+      </button>
+      <button id="btn-neyapsak" onclick="showSection('neyapsak')">
+        <img src="png/bowling.svg" alt="Ne Yapsak?"> Ne Yapsak?
+      </button>
+      <button id="btn-nereye" onclick="showSection('nereye')">
+        <img src="png/müze.svg" alt="Nereye Gitsek?"> Nereye Gitsek?
+      </button>
+    </div>
+
+    <!-- İçerikler -->
+    <div id="content-neyesek" class="tab-content active">
+      <img class="phone" src="png/neyesektelefon.png" alt="Ne Yesek Telefon">
+      <div class="quote-box">
+        <img src="png/ust.png" alt="üst" class="quote-top">
+        <h2 class="orange">Ne Yesek?</h2>
+        <h3>“Fark etmez” deyip köşelerde kalanlara özel olarak.</h3>
+        <p>Naapsak, damak zevkine, bütçene ve konumuna uygun restoran, kafe ve lezzet duraklarını önerir.</p>
+        <img src="png/alt.png" alt="alt" class="quote-bottom">
+      </div>
+    </div>
+
+    <div id="content-neyapsak" class="tab-content">
+      <img class="phone" src="png/neyapsaktelefon.png" alt="Ne Yapsak Telefon">
+      <div class="quote-box">
+        <img src="png/ust.png" alt="üst" class="quote-top">
+        <h2 class="blue">Ne Yapsak?</h2>
+        <h3>Boş zamanını keyifle değerlendirmek isteyenlere.</h3>
+        <p>Sinema, tiyatro, konser, stand-up ve daha fazlası... Naapsak, bulunduğun bölgede sana en uygun etkinlikleri listeler.</p>
+        <img src="png/alt.png" alt="alt" class="quote-bottom">
+      </div>
+    </div>
+
+    <div id="content-nereye" class="tab-content">
+      <img class="phone" src="png/nereyegitsektelefon.png" alt="Nereye Gitsek Telefon">
+      <div class="quote-box">
+        <img src="png/ust.png" alt="üst" class="quote-top">
+        <h2 class="purple">Nereye Gitsek?</h2>
+        <h3>Yeni yerler keşfetmek isteyenlere özel.</h3>
+        <p>Naapsak, tarihî yapılar, müzeler ve daha fazlasını keşfetmen için sana rehberlik eder.</p>
+        <img src="png/alt.png" alt="alt" class="quote-bottom">
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-left">
+        <img src="png/Naapsak Logo (2)-03.png" alt="Naapsak Logo" class="footer-logo-img">
+        <p>Ne yapmak istediğini bilmeyenler için akıllı bir uygulama.<br>
+        Bize ulaş: <a href="mailto:iletisim@naapsakapp.com">iletisim@naapsakapp.com</a></p>
+        <div class="footer-socials">
+          <a href="https://www.linkedin.com/company/naapsak/" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn"></a>
+          <a href="https://www.instagram.com/naapsak.app?igsh=MXB5djB1c3o5OTlmbA==" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram"></a>
+          <a href="https://www.tiktok.com/@naapsak.app?_t=ZS-8yxfJ4D1YCP&_r=1" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok"></a>
+          <a href="https://x.com/naapsakmobile?s=21" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968958.png" alt="X"></a>
+        </div>
+        <p class="footer-copy">© 2025 Naapsak | Tüm Hakları Saklıdır</p>
+      </div>
+    </div>
+    <div class="footer-phone">
+      <img src="png/footertelefon.png" alt="Naapsak App">
+    </div>
+  </footer>
+
+  <script>
+    // Sayfa geçiş fade
+    document.addEventListener("DOMContentLoaded", () => { 
+      document.body.classList.add("fade-in"); 
+      // index.html URL'den gizle
+      if (window.location.pathname.endsWith("index.html")) {
+        window.history.replaceState(null, "", "/");
+      }
+    });
+
+    document.querySelectorAll("a").forEach(link => {
+      if (link.hostname === window.location.hostname) {
+        link.addEventListener("click", e => {
+          e.preventDefault();
+          const url = link.getAttribute("href");
+          document.body.classList.add("fade-out");
+          setTimeout(() => { window.location.href = url; }, 400);
+        });
+      }
+    });
+
+    // Scroll butonu
+    document.querySelector(".scroll-btn").addEventListener("click", function() {
+      const section = document.getElementById("tabs-section");
+      const headerHeight = document.querySelector("header").offsetHeight;
+      const sectionTop = section.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+      window.scrollTo({ top: sectionTop, behavior: "smooth" });
+    });
+
+    // Tab geçişleri
+    function showSection(type) {
+      document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+      document.querySelectorAll(".tabs button").forEach(btn => btn.classList.remove("active","orange","blue","purple"));
+      const content = document.getElementById("content-"+type);
+      const btn = document.getElementById("btn-"+type);
+      if(content && btn){
+        content.classList.add("active");
+        if(type==="neyesek") btn.classList.add("active","orange");
+        if(type==="neyapsak") btn.classList.add("active","blue");
+        if(type==="nereye") btn.classList.add("active","purple");
+      }
+    }
+    window.showSection = showSection;
+
+    // Banner hide scroll
+    window.addEventListener("scroll", function() {
+      const banner = document.querySelector(".banner");
+      if(window.scrollY > 100){ banner.classList.add("hide"); } else { banner.classList.remove("hide"); }
+    });
+  </script>
+</body>
+</html>
