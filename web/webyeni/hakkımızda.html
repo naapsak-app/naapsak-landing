@@ -89,44 +89,35 @@
     .footer-phone img { display: block; width: 100%; object-fit: cover; }
 
     /* 📱 Mobil düzenlemeler */
-    @media (max-width: 768px) {
-      header {
-        flex-direction: column;
-        padding: 12px 5%;
-        gap: 8px;
-      }
-      nav {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 8px;
-      }
-      nav a {
-        font-size: 13px;
-        margin: 3px 5px;
-      }
-      header img { height: 38px; }
+    /* 📱 Mobil düzen (sadece 768px ve altı) */
+@media (max-width: 768px) {
+  .about-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end; /* N logosu biraz aşağı insin */
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 30px;
+  }
+  .bizkimiz {
+    height: 120px;
+    width: auto;
+  }
+  .naapsak-icon {
+    height: 45px;
+    margin-top: 15px; /* N logosunu biraz aşağı çeker */
+  }
 
-      .about-container {
-        gap: 10px;
-      }
-      .bizkimiz {
-        height: 110px;
-      }
-      .naapsak-icon {
-        height: 40px;
-      }
-      .about-text {
-        font-size: 14px;
-        line-height: 1.5;
-        text-align: center;
-        padding: 0 12px;
-      }
-      .about-text p:nth-child(2) {
-        font-size: 18px;
-        font-weight: 700;
-      }
-
+  .about-text {
+    font-size: 15px;
+    line-height: 1.6;
+    text-align: center;
+  }
+  .about-text p:nth-child(2) {
+    font-size: 20px;
+    font-weight: 700;
+  }
+}
       .manifesto { padding: 40px 6%; }
       .manifesto h2 { font-size: 24px; text-align: center; }
       .manifesto p { font-size: 15px; text-align: justify; }
