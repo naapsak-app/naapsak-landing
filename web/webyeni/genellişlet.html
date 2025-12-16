@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Naapsak Admin Panel – İşletme Yönetimi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top, #1e293b 0, transparent 55%),
+        radial-gradient(circle at bottom, #020617 0, #000 70%);
+      color: #e5e7eb;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .shell {
+      width: 100%;
+      max-width: 1100px;
+      margin: 24px;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo-pill {
+      background: linear-gradient(135deg, #fb923c, #f97316);
+      color: #020617;
+      padding: 5px 14px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      box-shadow: 0 0 18px rgba(251,146,60,0.6);
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+    .header-sub {
+      color: #9ca3af;
+      font-size: 13px;
+      margin-top: 2px;
+    }
+    .container {
+      background: rgba(15,23,42,0.9);
+      border-radius: 22px;
+      padding: 18px 20px 20px;
+      border: 1px solid rgba(148,163,184,0.5);
+      box-shadow: 0 22px 70px rgba(0,0,0,0.65);
+      backdrop-filter: blur(22px);
+    }
+    .card {
+      background: radial-gradient(circle at top left, rgba(251,146,60,0.08), transparent 50%),
+                  rgba(15,23,42,0.95);
+      border-radius: 18px;
+      padding: 16px 18px;
+      border: 1px solid rgba(51,65,85,0.9);
+      margin-bottom: 16px;
+    }
+    .card-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #9ca3af;
+      margin-bottom: 10px;
+    }
+    label {
+      font-size: 13px;
+      font-weight: 500;
+      display: block;
+      margin-bottom: 4px;
+    }
+    input[type="text"],
+    input[type="tel"],
+    input[type="time"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 9px 11px;
+      border-radius: 10px;
+      border: 1px solid #4b5563;
+      background: #020617;
+      color: #e5e7eb;
+      font-size: 14px;
+      outline: none;
+    }
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: #fb923c;
+      box-shadow: 0 0 0 1px rgba(251,146,60,0.5);
+    }
+    textarea {
+      min-height: 70px;
+      resize: vertical;
+    }
+    .row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .col {
+      flex: 1 1 0;
+      min-width: 220px;
+    }
+    .badges-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 6px;
+    }
+    .badge-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      background: rgba(15,23,42,0.9);
+      border-radius: 999px;
+      padding: 3px 9px;
+      border: 1px solid #4b5563;
+    }
+    .badge-item input {
+      margin: 0;
+    }
+    .hint {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-top: 3px;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: rgba(148,163,184,0.1);
+      color: #cbd5f5;
+      margin-left: 4px;
+    }
+    button {
+      border: none;
+      outline: none;
+      border-radius: 999px;
+      padding: 9px 18px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      background: linear-gradient(135deg, #fb923c, #f97316);
+      color: #111827;
+      transition: transform 0.05s ease, box-shadow 0.05s ease, opacity 0.1s;
+    }
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+    }
+    button:disabled {
+      opacity: 0.6;
+      cursor: wait;
+      box-shadow: none;
+      transform: none;
+    }
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid rgba(148,163,184,0.6);
+      color: #e5e7eb;
+    }
+    .btn-danger {
+      background: linear-gradient(135deg, #f97373, #ef4444);
+      color: #111827;
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+    .btn-sm {
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+    .footer-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .status-inline {
+      font-size: 12px;
+      color: #9ca3af;
+    }
+    /* Tabs */
+    .tabs {
+      display: inline-flex;
+      background: rgba(15,23,42,0.9);
+      border-radius: 999px;
+      padding: 3px;
+      border: 1px solid rgba(51,65,85,0.9);
+      margin-bottom: 12px;
+      gap: 2px;
+    }
+    .tab-btn {
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-size: 12px;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      color: #9ca3af;
+    }
+    .tab-btn--active {
+      background: linear-gradient(135deg, #fb923c, #f97316);
+      color: #111827;
+      box-shadow: 0 0 18px rgba(251,146,60,0.6);
+    }
+    /* Opening hours */
+    .hours-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+    }
+    .hours-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+    }
+    .hours-table th,
+    .hours-table td {
+      font-size: 12px;
+      padding: 4px 6px;
+      text-align: left;
+    }
+    .hours-table th {
+      color: #9ca3af;
+      font-weight: 500;
+    }
+    .hours-table tr:nth-child(even) {
+      background: rgba(15,23,42,0.9);
+    }
+    .closed-toggle {
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .hours-closed input[type="time"] {
+      opacity: 0.35;
+    }
+    /* Toast */
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      min-width: 260px;
+      max-width: 380px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-size: 13px;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      opacity: 0;
+      transform: translateY(12px) scale(0.97);
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      box-shadow: 0 15px 45px rgba(0,0,0,0.55);
+      z-index: 50;
+    }
+    .toast--visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+    .toast--success {
+      background: rgba(22,163,74,0.18);
+      border: 1px solid rgba(22,163,74,0.9);
+      color: #bbf7d0;
+    }
+    .toast--error {
+      background: rgba(239,68,68,0.18);
+      border: 1px solid rgba(239,68,68,0.9);
+      color: #fecaca;
+    }
+    .toast-icon {
+      font-size: 16px;
+      line-height: 1;
+      margin-top: 1px;
+    }
+    .toast-body {
+      flex: 1;
+    }
+    .toast-title {
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .toast-text {
+      font-size: 12px;
+    }
+    /* List table */
+    .list-controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+      align-items: center;
+    }
+    .list-search {
+      flex: 1 1 220px;
+    }
+    .list-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 4px;
+    }
+    .list-table th,
+    .list-table td {
+      font-size: 12px;
+      padding: 6px 6px;
+      text-align: left;
+      border-bottom: 1px solid rgba(30,41,59,0.8);
+    }
+    .list-table th {
+      color: #9ca3af;
+      font-weight: 500;
+    }
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      display: inline-block;
+      margin-right: 4px;
+    }
+    .badge-dot--green {
+      background: #22c55e;
+    }
+    .badge-dot--red {
+      background: #ef4444;
+    }
+  </style>
+</head>
+<body>
+<div class="shell">
+  <div class="header">
+    <div class="title-wrap">
+      <span class="logo-pill">Naapsak</span>
+      <div>
+        <h1>Admin – İşletme Yönetimi</h1>
+        <div class="header-sub">Swagger uğraştırmasın; buradan ekle, listele, sil.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab-btn tab-btn--active" data-target="panelCreate">İşletme Ekle</button>
+      <button class="tab-btn" data-target="panelList">Listele & Sil</button>
+    </div>
+
+    <!-- TOKEN -->
+    <div class="card" id="tokenCard">
+      <div class="card-title">1 · Erişim</div>
+      <label for="token">
+        Access Token <span class="pill">Bearer JWT</span>
+      </label>
+      <input type="text" id="token" placeholder="Swagger'dan aldığın access token'ı buraya yapıştır" />
+      <div class="hint">Token localStorage’da saklanır; sayfayı kapatana kadar tekrar girmen gerekmez.</div>
+    </div>
+
+    <!-- PANEL: CREATE -->
+    <div id="panelCreate">
+      <form id="businessForm" class="card">
+        <div class="card-title">2 · İşletme Bilgileri</div>
+
+        <div class="row">
+          <div class="col">
+            <label for="name">İşletme Adı (name)</label>
+            <input type="text" id="name" required placeholder="Örn: Güzel Restoran" />
+          </div>
+          <div class="col">
+            <label for="category">Kategori (category)</label>
+            <select id="category" required>
+              <option value="">Seç...</option>
+              <option value="cafe">cafe</option>
+              <option value="restaurant">restaurant</option>
+              <option value="dessert">dessert</option>
+              <option value="breakfast">breakfast</option>
+              <option value="hamburger">hamburger</option>
+              <option value="pizza">pizza</option>
+              <option value="museum">museum</option>
+              <option value="mosque">mosque</option>
+              <option value="palace">palace</option>
+              <option value="historical_buildings">historical_buildings</option>
+              <option value="sarnic">sarnic</option>
+              <option value="cinema">cinema</option>
+              <option value="theater">theater</option>
+              <option value="standup">standup</option>
+              <option value="concert">concert</option>
+              <option value="bar">bar</option>
+              <option value="shopping">shopping</option>
+              <option value="other">other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:10px;">
+          <div class="col">
+            <label for="section">Bölüm (section)</label>
+            <select id="section" required>
+              <option value="">Seç...</option>
+              <option value="food">food (Ne yesek?)</option>
+              <option value="travel">travel (Nereye gitsek?)</option>
+              <option value="entertainment">entertainment (Ne yapsak?)</option>
+            </select>
+          </div>
+          <div class="col">
+            <label for="menuUrl">Menü URL (menuUrl)</label>
+            <input type="text" id="menuUrl" placeholder="https://.../menu" />
+          </div>
+        </div>
+
+        <label for="description" style="margin-top:10px;">Açıklama (description)</label>
+        <textarea id="description" placeholder="Kısa açıklama: Lezzetli Türk mutfağı, sakin ortam vb."></textarea>
+
+        <div class="row" style="margin-top:10px;">
+          <div class="col">
+            <label for="mapsUrl">
+              Google Maps Linki
+              <span class="pill">Koordinat otomatik</span>
+            </label>
+            <input type="text" id="mapsUrl" required placeholder="Google Maps paylaş linkini yapıştır" />
+            <div class="hint">Örn: https://www.google.com/maps/place/.../@41.0123,28.9876,...</div>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:10px;">
+          <div class="col">
+            <label for="longitude">Longitude (coordinates[0])</label>
+            <input type="text" id="longitude" readonly />
+          </div>
+          <div class="col">
+            <label for="latitude">Latitude (coordinates[1])</label>
+            <input type="text" id="latitude" readonly />
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:10px;">
+          <div class="col">
+            <label for="phoneNumber">Telefon (phoneNumber)</label>
+            <input type="tel" id="phoneNumber" placeholder="+90 5xx xxx xx xx" />
+          </div>
+        </div>
+
+        <label style="margin-top:12px;">Rozetler (badges)</label>
+        <div class="badges-list">
+          <label class="badge-item"><input type="checkbox" value="otopark" />otopark</label>
+          <label class="badge-item"><input type="checkbox" value="sigara_icilebilir" />sigara_icilebilir</label>
+          <label class="badge-item"><input type="checkbox" value="alkollu" />alkollu</label>
+          <label class="badge-item"><input type="checkbox" value="rezervasyon" />rezervasyon</label>
+          <label class="badge-item"><input type="checkbox" value="bahce" />bahce</label>
+          <label class="badge-item"><input type="checkbox" value="cocuk_oyun_alani" />cocuk_oyun_alani</label>
+        </div>
+
+        <div class="hours-header">
+          <div class="card-title" style="margin-top:12px;margin-bottom:0;">3 · Açılış – Kapanış Saatleri (openingHours)</div>
+          <button type="button" class="btn-sm btn-ghost" id="copyHoursBtn">Her güne Pazartesi saatini uygula</button>
+        </div>
+
+        <table class="hours-table">
+          <thead>
+          <tr>
+            <th>Gün</th>
+            <th>Açılış</th>
+            <th>Kapanış</th>
+            <th>Durum</th>
+          </tr>
+          </thead>
+          <tbody id="hoursBody"></tbody>
+        </table>
+        <div class="hint">Her gün için saatleri düzenleyebilir, istersen “Kapalı” işaretleyebilirsin.</div>
+
+        <div class="card-title" style="margin-top:18px;">4 · Fotoğraflar (files)</div>
+        <label for="files">İşletme Fotoğrafları (zorunlu)</label>
+        <input type="file" id="files" multiple required />
+        <div class="hint">En az bir fotoğraf seç. Backend bu dosyalardan URL üretiyor.</div>
+
+        <div class="footer-row">
+          <button type="submit" id="submitBtn">İşletmeyi Oluştur</button>
+          <div id="statusInline" class="status-inline"></div>
+        </div>
+      </form>
+    </div>
+
+    <!-- PANEL: LIST -->
+    <div id="panelList" style="display:none;">
+      <div class="card">
+        <div class="card-title">2 · İşletmeleri Listele & Sil</div>
+        <div class="list-controls">
+          <button type="button" class="btn-sm" id="refreshListBtn">Listeyi Yenile</button>
+          <input type="text" id="searchInput" class="list-search" placeholder="Ara: isim, kategori, bölüm..." />
+        </div>
+        <div class="hint" id="listHint">Liste boş. “Listeyi Yenile”ye tıklayarak işletmeleri çek.</div>
+        <div style="overflow-x:auto; margin-top:6px;">
+          <table class="list-table" id="businessTable">
+            <thead>
+            <tr>
+              <th>İsim</th>
+              <th>Kategori</th>
+              <th>Bölüm</th>
+              <th>Telefon</th>
+              <th>Durum</th>
+              <th style="width:80px;">Aksiyon</th>
+            </tr>
+            </thead>
+            <tbody id="businessTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast">
+  <div class="toast-icon" id="toastIcon">✅</div>
+  <div class="toast-body">
+    <div class="toast-title" id="toastTitle">Başarılı</div>
+    <div class="toast-text" id="toastText">İşlem tamamlandı.</div>
+  </div>
+</div>
+
+<script>
+  const API_ROOT = "https://naapsak.berkeugur.com/api";
+  const BUSINESS_BASE_URL = `${API_ROOT}/businesses`;
+
+  const tokenInput     = document.getElementById("token");
+  const mapsUrlInput   = document.getElementById("mapsUrl");
+  const longitudeInput = document.getElementById("longitude");
+  const latitudeInput  = document.getElementById("latitude");
+  const form           = document.getElementById("businessForm");
+  const submitBtn      = document.getElementById("submitBtn");
+  const statusInline   = document.getElementById("statusInline");
+  const hoursBody      = document.getElementById("hoursBody");
+  const copyHoursBtn   = document.getElementById("copyHoursBtn");
+  const refreshListBtn = document.getElementById("refreshListBtn");
+  const businessTableBody = document.getElementById("businessTableBody");
+  const searchInput    = document.getElementById("searchInput");
+  const listHint       = document.getElementById("listHint");
+
+  /* TABS */
+  document.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("tab-btn--active"));
+      btn.classList.add("tab-btn--active");
+      const target = btn.getAttribute("data-target");
+      document.getElementById("panelCreate").style.display = target === "panelCreate" ? "block" : "none";
+      document.getElementById("panelList").style.display   = target === "panelList" ? "block" : "none";
+    });
+  });
+
+  /* TOAST */
+  function showToast(title, text, type) {
+    const toast = document.getElementById("toast");
+    const icon  = document.getElementById("toastIcon");
+    const tTitle = document.getElementById("toastTitle");
+    const tText  = document.getElementById("toastText");
+
+    tTitle.textContent = title;
+    tText.textContent  = text;
+
+    toast.classList.remove("toast--success", "toast--error");
+    if (type === "success") {
+      toast.classList.add("toast--success");
+      icon.textContent = "✅";
+    } else {
+      toast.classList.add("toast--error");
+      icon.textContent = "⚠️";
+    }
+
+    toast.classList.add("toast--visible");
+    clearTimeout(window.__toastTimeout);
+    window.__toastTimeout = setTimeout(() => {
+      toast.classList.remove("toast--visible");
+    }, 4000);
+  }
+
+  function setInlineStatus(msg) {
+    statusInline.textContent = msg || "";
+  }
+
+  /* OPENING HOURS */
+  const defaultHours = {
+    monday:   { open: "09:00", close: "18:00" },
+    tuesday:  { open: "09:00", close: "18:00" },
+    wednesday:{ open: "09:00", close: "18:00" },
+    thursday: { open: "09:00", close: "18:00" },
+    friday:   { open: "09:00", close: "18:00" },
+    saturday: { open: "10:00", close: "22:00" },
+    sunday:   { open: "10:00", close: "22:00" }
+  };
+
+  const dayNamesTr = {
+    monday: "Pazartesi",
+    tuesday: "Salı",
+    wednesday: "Çarşamba",
+    thursday: "Perşembe",
+    friday: "Cuma",
+    saturday: "Cumartesi",
+    sunday: "Pazar"
+  };
+
+  for (const day of Object.keys(defaultHours)) {
+    const row = document.createElement("tr");
+    row.setAttribute("data-day-row", day);
+    row.innerHTML = `
+      <td>${dayNamesTr[day]}</td>
+      <td><input type="time" data-day="${day}" data-field="open" value="${defaultHours[day].open}" /></td>
+      <td><input type="time" data-day="${day}" data-field="close" value="${defaultHours[day].close}" /></td>
+      <td>
+        <label class="closed-toggle">
+          <input type="checkbox" data-day="${day}" data-field="closed" />
+          Kapalı
+        </label>
+      </td>
+    `;
+    hoursBody.appendChild(row);
+  }
+
+  function updateClosedVisual(day) {
+    const row = hoursBody.querySelector(`tr[data-day-row="${day}"]`);
+    if (!row) return;
+    const closedCheckbox = row.querySelector('input[type="checkbox"][data-field="closed"]');
+    const openInput  = row.querySelector('input[type="time"][data-field="open"]');
+    const closeInput = row.querySelector('input[type="time"][data-field="close"]');
+    if (closedCheckbox.checked) {
+      row.classList.add("hours-closed");
+      openInput.disabled = true;
+      closeInput.disabled = true;
+    } else {
+      row.classList.remove("hours-closed");
+      openInput.disabled = false;
+      closeInput.disabled = false;
+    }
+  }
+
+  hoursBody.addEventListener("change", (e) => {
+    if (e.target.matches('input[type="checkbox"][data-field="closed"]')) {
+      const day = e.target.getAttribute("data-day");
+      updateClosedVisual(day);
+    }
+  });
+
+  function collectOpeningHours() {
+    const result = {};
+    Object.keys(defaultHours).forEach(day => {
+      const row = hoursBody.querySelector(`tr[data-day-row="${day}"]`);
+      const openInput  = row.querySelector('input[type="time"][data-field="open"]');
+      const closeInput = row.querySelector('input[type="time"][data-field="close"]');
+      const closedCheckbox = row.querySelector('input[type="checkbox"][data-field="closed"]');
+      const closed = closedCheckbox.checked;
+      result[day] = {
+        open: closed ? "" : (openInput.value || defaultHours[day].open),
+        close: closed ? "" : (closeInput.value || defaultHours[day].close),
+        closed: closed
+      };
+    });
+    return result;
+  }
+
+  copyHoursBtn.addEventListener("click", () => {
+    const mondayRow = hoursBody.querySelector('tr[data-day-row="monday"]');
+    if (!mondayRow) return;
+    const mondayOpen  = mondayRow.querySelector('input[data-day="monday"][data-field="open"]').value;
+    const mondayClose = mondayRow.querySelector('input[data-day="monday"][data-field="close"]').value;
+
+    Object.keys(defaultHours).forEach(day => {
+      if (day === "monday") return;
+      const row = hoursBody.querySelector(`tr[data-day-row="${day}"]`);
+      const openInput  = row.querySelector('input[type="time"][data-field="open"]');
+      const closeInput = row.querySelector('input[type="time"][data-field="close"]');
+      const closedCheckbox = row.querySelector('input[type="checkbox"][data-field="closed"]');
+      if (!closedCheckbox.checked) {
+        openInput.value  = mondayOpen;
+        closeInput.value = mondayClose;
+      }
+    });
+    showToast("Saatler kopyalandı", "Pazartesi saatleri diğer günlere uygulandı (kapalı işaretli olmayanlara).", "success");
+  });
+
+  /* TOKEN LOCALSTORAGE */
+  const savedToken = localStorage.getItem("naapsak_token");
+  if (savedToken) tokenInput.value = savedToken;
+
+  tokenInput.addEventListener("input", () => {
+    localStorage.setItem("naapsak_token", tokenInput.value.trim());
+  });
+
+  /* MAPS → COORDS */
+  function extractLatLngFromUrl(url) {
+    const atMatch = url.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
+    if (atMatch) return { lat: atMatch[1], lng: atMatch[2] };
+    const qMatch = url.match(/(\?|&)q=(-?\d+\.\d+),(-?\d+\.\d+)/);
+    if (qMatch) return { lat: qMatch[2], lng: qMatch[3] };
+    return null;
+  }
+
+  mapsUrlInput?.addEventListener("blur", () => {
+    const url = mapsUrlInput.value.trim();
+    if (!url) return;
+    const coords = extractLatLngFromUrl(url);
+    if (coords) {
+      latitudeInput.value  = coords.lat;
+      longitudeInput.value = coords.lng;
+      showToast("Koordinatlar alındı", "Google Maps linkinden latitude/longitude çözüldü.", "success");
+    } else {
+      latitudeInput.value = "";
+      longitudeInput.value = "";
+      showToast("Koordinat okunamadı", "Maps linki beklenen formatta değil, manuel kontrol et.", "error");
+    }
+  });
+
+  /* CREATE BUSINESS */
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const token = tokenInput.value.trim();
+    if (!token) {
+      showToast("Token eksik", "Önce access token yapıştırman gerekiyor.", "error");
+      return;
+    }
+
+    const name        = document.getElementById("name").value.trim();
+    const category    = document.getElementById("category").value;
+    const section     = document.getElementById("section").value;
+    const description = document.getElementById("description").value.trim();
+    const menuUrl     = document.getElementById("menuUrl").value.trim();
+    const phoneNumber = document.getElementById("phoneNumber").value.trim();
+    const mapsUrl     = mapsUrlInput.value.trim();
+    const lng         = longitudeInput.value.trim();
+    const lat         = latitudeInput.value.trim();
+
+    const filesInput = document.getElementById("files");
+    const files = Array.from(filesInput.files || []);
+
+    if (!name || !category || !section || !mapsUrl) {
+      showToast("Eksik alanlar", "İşletme adı, kategori, section ve Maps linki zorunlu.", "error");
+      return;
+    }
+    if (files.length === 0) {
+      showToast("Fotoğraf eksik", "En az bir fotoğraf seçmen gerekiyor.", "error");
+      return;
+    }
+
+    const fd = new FormData();
+    fd.append("name", name);
+    fd.append("category", category);
+    fd.append("section", section);
+    if (description) fd.append("description", description);
+    if (menuUrl)     fd.append("menuUrl", menuUrl);
+    if (phoneNumber) fd.append("phoneNumber", phoneNumber);
+
+    if (lng && lat) {
+      fd.append("coordinates", lng);
+      fd.append("coordinates", lat);
+    }
+
+    document.querySelectorAll(".badge-item input:checked")
+      .forEach(ch => fd.append("badges", ch.value));
+
+    const openingHours = collectOpeningHours();
+    for (const day in openingHours) {
+      const oh = openingHours[day];
+      fd.append(`openingHours[${day}][open]`, oh.open);
+      fd.append(`openingHours[${day}][close]`, oh.close);
+    }
+
+    files.forEach(f => fd.append("files", f));
+
+    submitBtn.disabled = true;
+    setInlineStatus("İşlem gönderiliyor...");
+
+    try {
+      const res = await fetch(BUSINESS_BASE_URL, {
+        method: "POST",
+        headers: { Authorization: "Bearer " + token },
+        body: fd
+      });
+
+      const text = await res.text();
+      let payload;
+      try { payload = JSON.parse(text); } catch { payload = null; }
+
+      if (res.ok && payload && payload.isSuccess) {
+        const createdName = payload?.data?.name || name;
+        const id = payload?.data?._id || "";
+        showToast("İşletme oluşturuldu",
+          `"${createdName}" sisteme başarıyla eklendi.${id ? " (id: " + id + ")" : ""}`,
+          "success");
+        setInlineStatus("Başarılı.");
+        form.reset();
+        latitudeInput.value = "";
+        longitudeInput.value = "";
+        hoursBody.querySelectorAll("input[type='time']").forEach(inp => {
+          const day = inp.getAttribute("data-day");
+          const field = inp.getAttribute("data-field");
+          inp.value = defaultHours[day][field];
+        });
+        hoursBody.querySelectorAll("input[type='checkbox'][data-field='closed']").forEach(ch => {
+          ch.checked = false;
+          updateClosedVisual(ch.getAttribute("data-day"));
+        });
+      } else {
+        const errMsg = payload?.errors?.join(" | ") || text || "Bilinmeyen hata";
+        showToast("İşlem başarısız", errMsg, "error");
+        setInlineStatus("Hata: " + errMsg);
+      }
+    } catch (err) {
+      showToast("İstek hatası", err.message, "error");
+      setInlineStatus("İstek hatası: " + err.message);
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+
+  /* LİSTELEME – payload içinden array yakalayıcı */
+  function extractItemsFromPayload(payload) {
+    if (!payload) return [];
+
+    if (Array.isArray(payload)) return payload;
+    if (Array.isArray(payload.data)) return payload.data;
+    if (payload?.data && Array.isArray(payload.data.items)) return payload.data.items;
+    if (Array.isArray(payload.items)) return payload.items;
+    if (Array.isArray(payload.docs)) return payload.docs;
+
+    function findFirstArray(obj, depth) {
+      if (!obj || typeof obj !== "object" || depth > 3) return null;
+      for (const key of Object.keys(obj)) {
+        const val = obj[key];
+        if (Array.isArray(val)) return val;
+        if (val && typeof val === "object") {
+          const nested = findFirstArray(val, depth + 1);
+          if (nested) return nested;
+        }
+      }
+      return null;
+    }
+
+    const found = findFirstArray(payload, 0);
+    return found || [];
+  }
+
+  async function loadBusinesses() {
+    const token = tokenInput.value.trim();
+    if (!token) {
+      showToast("Token eksik", "Listeyi çekmek için önce token girmen gerekiyor.", "error");
+      return;
+    }
+    listHint.textContent = "Liste çekiliyor...";
+    businessTableBody.innerHTML = "";
+
+    try {
+      const res = await fetch(BUSINESS_BASE_URL, {
+        method: "GET",
+        headers: { Authorization: "Bearer " + token }
+      });
+
+      const text = await res.text();
+      let payload;
+      try { payload = JSON.parse(text); } catch { payload = null; }
+
+      if (!res.ok || (payload && typeof payload.isSuccess === "boolean" && !payload.isSuccess)) {
+        const errMsg = payload?.errors?.join(" | ") || text || "Liste alınamadı.";
+        showToast("Listeleme hatası", errMsg, "error");
+        listHint.textContent = "Liste alınamadı.";
+        return;
+      }
+
+      const items = extractItemsFromPayload(payload);
+
+      if (!items || !items.length) {
+        listHint.textContent = "Kayıtlı işletme bulunamadı.";
+        businessTableBody.innerHTML = "";
+        console.log("DEBUG payload (boş bulundu):", payload);
+        return;
+      }
+
+      listHint.textContent = `${items.length} işletme listelendi.`;
+      businessTableBody.innerHTML = "";
+
+      items.forEach((b) => {
+        const tr = document.createElement("tr");
+        tr.setAttribute("data-id", b._id);
+        tr.setAttribute("data-name", (b.name || "").toLowerCase());
+        tr.setAttribute("data-category", (b.category || "").toLowerCase());
+        tr.setAttribute("data-section", (b.section || "").toLowerCase());
+        tr.innerHTML = `
+          <td>${b.name || "-"}</td>
+          <td>${b.category || "-"}</td>
+          <td>${b.section || "-"}</td>
+          <td>${b.phoneNumber || "-"}</td>
+          <td>
+            ${
+              b.isActive
+                ? '<span class="badge-dot badge-dot--green"></span>Aktif'
+                : '<span class="badge-dot badge-dot--red"></span>Pasif'
+            }
+          </td>
+          <td>
+            <button type="button"
+                    class="btn-danger btn-sm"
+                    data-action="delete"
+                    data-id="${b._id || ""}"
+                    data-name="${b.name || ""}">
+              Sil
+            </button>
+          </td>
+        `;
+        businessTableBody.appendChild(tr);
+      });
+
+      applyFilter();
+    } catch (err) {
+      showToast("Listeleme hatası", err.message, "error");
+      listHint.textContent = "Liste alınırken hata oluştu.";
+    }
+  }
+
+  refreshListBtn.addEventListener("click", loadBusinesses);
+
+  /* SİLME */
+  businessTableBody.addEventListener("click", async (e) => {
+    if (!e.target.matches('button[data-action="delete"]')) return;
+    const id = e.target.getAttribute("data-id");
+    const name = e.target.getAttribute("data-name") || "";
+    if (!id) return;
+
+    const confirmDelete = confirm(`"${name}" isimli işletmeyi silmek istediğine emin misin?`);
+    if (!confirmDelete) return;
+
+    const token = tokenInput.value.trim();
+    if (!token) {
+      showToast("Token eksik", "Silme işlemi için token gerekiyor.", "error");
+      return;
+    }
+
+    try {
+      const res = await fetch(`${BUSINESS_BASE_URL}/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: "Bearer " + token }
+      });
+      const text = await res.text();
+      let payload;
+      try { payload = JSON.parse(text); } catch { payload = null; }
+
+      if (!res.ok || (payload && typeof payload.isSuccess === "boolean" && !payload.isSuccess)) {
+        const errMsg = payload?.errors?.join(" | ") || text || "Silme işlemi başarısız.";
+        showToast("Silme hatası", errMsg, "error");
+        return;
+      }
+
+      const row = businessTableBody.querySelector(`tr[data-id="${id}"]`);
+      if (row) row.remove();
+      showToast("Silindi", `"${name}" başarıyla silindi.`, "success");
+
+      if (!businessTableBody.children.length) {
+        listHint.textContent = "Liste boş.";
+      }
+    } catch (err) {
+      showToast("Silme hatası", err.message, "error");
+    }
+  });
+
+  /* ARAMA / FİLTRE */
+  function applyFilter() {
+    const q = (searchInput.value || "").toLowerCase();
+    Array.from(businessTableBody.children).forEach(tr => {
+      const name = tr.getAttribute("data-name") || "";
+      const category = tr.getAttribute("data-category") || "";
+      const section = tr.getAttribute("data-section") || "";
+      const match = !q || name.includes(q) || category.includes(q) || section.includes(q);
+      tr.style.display = match ? "" : "none";
+    });
+  }
+
+  searchInput.addEventListener("input", applyFilter);
+</script>
+
+<script>
+(function(){
+  try{
+    const p = new URLSearchParams(window.location.search);
+    if(!p || [...p.keys()].length===0) return;
+
+    const setVal = (id, v) => {
+      const el = document.getElementById(id);
+      if(el && v !== null && v !== undefined && v !== "") { el.value = v; el.dispatchEvent(new Event('input', {bubbles:true})); el.dispatchEvent(new Event('change', {bubbles:true})); }
+    };
+
+    setVal("name", p.get("name"));
+    setVal("category", p.get("category"));
+    setVal("section", p.get("section"));
+    setVal("menuUrl", p.get("menuUrl"));
+    setVal("description", p.get("description"));
+    setVal("mapsUrl", p.get("mapsUrl"));
+    setVal("phoneNumber", p.get("phoneNumber"));
+
+    // Resim URL backend'e gönderilmiyor (backend file upload istiyor gibi).
+    // Sadece admin'e yardımcı olsun diye status alanına yazıyoruz.
+    const img = p.get("imageUrl");
+    const badges = p.get("badges");
+    const st = document.getElementById("statusInline");
+    if(st){
+      const extra = [];
+      if(badges) extra.push("Rozetler: " + badges);
+      if(img) extra.push("Resim linki (indirip yükleyebilirsin): " + img);
+      if(extra.length){
+        st.style.color = "#ff6600";
+        st.textContent = "Prefill geldi. " + extra.join(" • ");
+      }
+    }
+
+    // mapsUrl girildiyse mevcut scriptin koordinat parse işlemleri zaten çalışsın.
+  }catch(e){}
+})();
+</script>
+
+</body>
+</html>
