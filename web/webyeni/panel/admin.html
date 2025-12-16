@@ -151,6 +151,10 @@
     return headerRow.find(h => String(h).toLowerCase().includes(needle)) || '';
   }
 
+  // ✅ BURASI DÜZELTİLDİ:
+  // admin.html -> /panel içinde, genellislet.html -> panelin DIŞINDA (1 üst dizinde)
+  const APPROVE_PAGE = '../genellislet.html';
+
   function makePrefillUrl(o){
     const p = new URLSearchParams();
     p.set('submittedBy', o[headers.submittedBy]||'');
@@ -160,7 +164,7 @@
     p.set('mapsUrl', o[headers.mapsUrl]||'');
     p.set('badges', o[headers.badges]||'');
     p.set('imageLink', o[headers.imageLink]||'');
-    return './genellislet.html?' + p.toString();
+    return APPROVE_PAGE + '?' + p.toString();
   }
 
   let all=[];
