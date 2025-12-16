@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Naapsak Panel | Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./panel.css">
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <div class="brand">
+        <img src="../png/Naapsak Logo (2)-03.png" alt="Naapsak">
+        <div class="title">Admin Onay Paneli</div>
+        <span class="badge" id="who"></span>
+      </div>
+      <div class="actions">
+        <button class="btn" id="refresh">Yenile</button>
+        <button class="btn danger" id="logout">Çıkış</button>
+      </div>
+    </div>
+
+    <div class="grid cols-2">
+      <div class="card">
+        <h2 style="margin:0 0 6px 0">Özet</h2>
+        <p class="sub">Sheet’ten gelen başvurular. “Onayla” → işletme ekleme formunu dolu açar.</p>
+        <div class="kpis" style="margin-top:12px">
+          <div class="kpi"><p class="n" id="k_total">0</p><p class="t">Toplam Kayıt</p></div>
+          <div class="kpi"><p class="n" id="k_unique">0</p><p class="t">Tekil İşletme</p></div>
+          <div class="kpi"><p class="n" id="k_users">0</p><p class="t">Başvuran User</p></div>
+          <div class="kpi"><p class="n" id="k_show">0</p><p class="t">Gösterilen</p></div>
+        </div>
+        <hr class="sep"/>
+        <div class="grid" style="gap:10px">
+          <div class="field">
+            <label>Arama</label>
+            <input id="q" placeholder="işletme adı / user / kategori...">
+          </div>
+          <div class="field">
+            <label>CSV Kaynağı</label>
+            <input id="csv" value="https://docs.google.com/spreadsheets/d/e/2PACX-1vQ31DViBrlYJ6HTHA-CDo-z2hd8-FWNh79QqVs7b5JTXJaA9CkdYkImjcNIYXS9hQmh1PasYeOBxrdS/pub?output=csv">
+            <div class="small">Bu link “pub?output=csv” olmalı.</div>
+          </div>
+          <div class="actions" style="justify-content:flex-start">
+            <button class="btn primary" id="saveCsv">Kaydet</button>
+            <span class="small" id="status"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 style="margin:0 0 6px 0">İş Akışı</h2>
+        <div class="small">
+          <div class="pill wait">1) User başvurur</div><div style="height:8px"></div>
+          <div class="pill wait">2) Sheet’e düşer</div><div style="height:8px"></div>
+          <div class="pill ok">3) Admin Onaylar</div><div style="height:8px"></div>
+          <div class="pill ok">4) genellislet.html dolu açılır</div><div style="height:8px"></div>
+          <div class="pill ok">5) Token + Submit</div>
+        </div>
+        <hr class="sep"/>
+        <div class="small">
+          <b>Resim:</b> Formdaki “Resim Linki” sadece referans. Backend dosya istiyorsa admin upload eder.
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <div class="actions" style="justify-content:space-between">
+        <div>
+          <h2 style="margin:0">Başvurular</h2>
+          <div class="small" id="meta"></div>
+        </div>
+        <div class="actions"><span class="pill wait">PENDING</span></div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>İşletme</th>
+              <th>Kategori</th>
+              <th>Bölüm</th>
+              <th>Maps</th>
+              <th>Rozetler</th>
+              <th>Resim</th>
+              <th>Aksiyon</th>
+            </tr>
+          </thead>
+          <tbody id="rows">
+            <tr><td colspan="8" class="small">Yükleniyor...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const role = localStorage.getItem('naapsak_role');
+  const user = localStorage.getItem('naapsak_user') || '';
+  if(role !== 'admin') window.location.href = './login.html';
+  document.getElementById('who').textContent = user || 'admin';
+
+  document.getElementById('logout').onclick = ()=>{ localStorage.clear(); window.location.href='./login.html'; };
+  const savedCsv = localStorage.getItem('naapsak_csv_url');
+  if(savedCsv) document.getElementById('csv').value = savedCsv;
+
+  document.getElementById('saveCsv').onclick = ()=>{
+    localStorage.setItem('naapsak_csv_url', document.getElementById('csv').value.trim());
+    document.getElementById('status').textContent = 'Kaydedildi ✅';
+    setTimeout(()=>document.getElementById('status').textContent='', 1200);
+    load();
+  };
+  document.getElementById('refresh').onclick = ()=>load();
+
+  function csvParse(text){
+    const rows=[];
+    let i=0, field='', inQ=false;
+    let r=[];
+    const pushField=()=>{ r.push(field); field=''; };
+    const pushRow=()=>{ rows.push(r); r=[]; };
+    while(i<text.length){
+      const c=text[i];
+      if(inQ){
+        if(c==='"' && text[i+1]==='"'){ field+='"'; i+=2; continue; }
+        if(c==='"'){ inQ=false; i++; continue; }
+        field+=c; i++; continue;
+      } else {
+        if(c==='"'){ inQ=true; i++; continue; }
+        if(c===','){ pushField(); i++; continue; }
+        if(c==='\n'){ pushField(); pushRow(); i++; continue; }
+        if(c==='\r'){ i++; continue; }
+        field+=c; i++; continue;
+      }
+    }
+    pushField(); pushRow();
+    return rows.filter(x=>x.some(v=>String(v).trim()!==''));
+  }
+
+  function toObj(headerRow, dataRow){
+    const o={};
+    headerRow.forEach((h, idx)=>{ o[h]=dataRow[idx] ?? ''; });
+    return o;
+  }
+
+  const headers = { submittedBy:'submittedBy', name:'name', category:'category', section:'section', mapsUrl:'mapsUrl', badges:'badges', imageLink:'imageLink' };
+
+  function findCol(headerRow, needle){
+    needle = needle.toLowerCase();
+    return headerRow.find(h => String(h).toLowerCase().includes(needle)) || '';
+  }
+
+  function makePrefillUrl(o){
+    const p = new URLSearchParams();
+    p.set('submittedBy', o[headers.submittedBy]||'');
+    p.set('name', o[headers.name]||'');
+    p.set('category', o[headers.category]||'');
+    p.set('section', o[headers.section]||'');
+    p.set('mapsUrl', o[headers.mapsUrl]||'');
+    p.set('badges', o[headers.badges]||'');
+    p.set('imageLink', o[headers.imageLink]||'');
+    return './genellislet.html?' + p.toString();
+  }
+
+  let all=[];
+
+  function render(){
+    const q = document.getElementById('q').value.toLowerCase().trim();
+    const filtered = all.filter(o=>{
+      if(!q) return true;
+      const blob = [o[headers.submittedBy], o[headers.name], o[headers.category], o[headers.section], o[headers.mapsUrl], o[headers.badges], o[headers.imageLink]].join(' ').toLowerCase();
+      return blob.includes(q);
+    });
+
+    document.getElementById('k_total').textContent = all.length;
+    document.getElementById('k_show').textContent = filtered.length;
+    document.getElementById('k_unique').textContent = new Set(all.map(o=>(o[headers.name]||'').toLowerCase()).filter(Boolean)).size;
+    document.getElementById('k_users').textContent = new Set(all.map(o=>(o[headers.submittedBy]||'').toLowerCase()).filter(Boolean)).size;
+    document.getElementById('meta').textContent = `Gösterilen: ${filtered.length} / ${all.length}`;
+
+    const rows = document.getElementById('rows');
+    if(filtered.length===0){
+      rows.innerHTML = `<tr><td colspan="8" class="small">Kayıt yok.</td></tr>`;
+      return;
+    }
+
+    rows.innerHTML = filtered.map(o=>{
+      const maps = o[headers.mapsUrl]||'';
+      const img = o[headers.imageLink]||'';
+      const badges = o[headers.badges]||'';
+      return `<tr>
+        <td><span class="pill">${o[headers.submittedBy]||'-'}</span></td>
+        <td><b>${o[headers.name]||'-'}</b></td>
+        <td>${o[headers.category]||'-'}</td>
+        <td>${o[headers.section]||'-'}</td>
+        <td>${maps ? `<a class="btn" style="padding:8px 10px;display:inline-block" target="_blank" href="${maps}">Aç</a>` : '<span class="small">-</span>'}</td>
+        <td><span class="small">${badges || '-'}</span></td>
+        <td>${img ? `<a class="btn" style="padding:8px 10px;display:inline-block" target="_blank" href="${img}">Link</a>` : '<span class="small">-</span>'}</td>
+        <td><button class="btn primary" data-approve="1">Onayla</button></td>
+      </tr>`;
+    }).join('');
+
+    [...rows.querySelectorAll('button[data-approve]')].forEach((btn, idx)=>{
+      btn.addEventListener('click', ()=>{
+        const o = filtered[idx];
+        window.open(makePrefillUrl(o), '_blank');
+      });
+    });
+  }
+
+  async function load(){
+    const csv = document.getElementById('csv').value.trim();
+    document.getElementById('rows').innerHTML = `<tr><td colspan="8" class="small">Yükleniyor...</td></tr>`;
+    try{
+      const res = await fetch(csv, {cache:'no-store'});
+      const text = await res.text();
+      const rows = csvParse(text);
+      const headerRow = rows[0];
+      const data = rows.slice(1).map(r=>toObj(headerRow, r));
+
+      headers.submittedBy = findCol(headerRow, 'kullanıcı') || findCol(headerRow, 'submitted') || headers.submittedBy;
+      headers.name = findCol(headerRow, 'işletme') || findCol(headerRow, 'name') || headers.name;
+      headers.category = findCol(headerRow, 'kategori') || findCol(headerRow, 'category') || headers.category;
+      headers.section = findCol(headerRow, 'bölüm') || findCol(headerRow, 'section') || headers.section;
+      headers.mapsUrl = findCol(headerRow, 'maps') || findCol(headerRow, 'google') || headers.mapsUrl;
+      headers.badges = findCol(headerRow, 'rozet') || findCol(headerRow, 'badge') || headers.badges;
+      headers.imageLink = findCol(headerRow, 'resim') || findCol(headerRow, 'image') || headers.imageLink;
+
+      all = data;
+      render();
+    }catch(e){
+      document.getElementById('rows').innerHTML = `<tr><td colspan="8" class="small">CSV okunamadı. Link “pub?output=csv” olmalı.</td></tr>`;
+    }
+  }
+
+  document.getElementById('q').addEventListener('input', render);
+  load();
+</script>
+</body>
+</html>

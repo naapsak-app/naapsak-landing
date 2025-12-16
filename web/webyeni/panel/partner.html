@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Naapsak Panel | İşletme Başvurusu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./panel.css">
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <div class="brand">
+        <img src="../png/Naapsak Logo (2)-03.png" alt="Naapsak">
+        <div class="title">Partner Başvurusu</div>
+        <span class="badge" id="who"></span>
+      </div>
+      <div class="actions">
+        <span class="pill wait">PENDING</span>
+        <button class="btn" id="logout">Çıkış</button>
+      </div>
+    </div>
+
+    <div class="grid cols-2">
+      <div class="card">
+        <h2 style="margin:0 0 6px 0">İşletmeni ekle</h2>
+        <p class="sub">Başvuru gönderildiğinde <b>app’e düşmez</b>. Admin onayı sonrası yayınlanır.</p>
+        <hr class="sep"/>
+
+        <form id="f">
+          <div class="field">
+            <label>İşletme Adı *</label>
+            <input name="name" required placeholder="örn: Unal Cafe">
+          </div>
+
+          <div class="field">
+            <label>Kategori *</label>
+            <input name="category" required placeholder="örn: mosque / cafe / restaurant">
+          </div>
+
+          <div class="field">
+            <label>Bölüm *</label>
+            <input name="section" required placeholder="örn: food ne yesek">
+          </div>
+
+          <div class="field">
+            <label>Google Maps URL *</label>
+            <input name="mapsUrl" required placeholder="https://maps.google.com/...">
+          </div>
+
+          <div class="grid cols-2">
+            <div class="field">
+              <label>Telefon</label>
+              <input name="phoneNumber" placeholder="05xx...">
+            </div>
+            <div class="field">
+              <label>Menü URL</label>
+              <input name="menuUrl" placeholder="https://...">
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Açıklama *</label>
+            <textarea name="description" required placeholder="Kısa, net bir açıklama yaz."></textarea>
+          </div>
+
+          <div class="field">
+            <label>Rozetler (opsiyonel)</label>
+            <input name="badges" placeholder="örn: rezervasyon, bahçe">
+            <div class="small">Birden fazlaysa virgülle ayır.</div>
+          </div>
+
+          <div class="field">
+            <label>Resim Linki (opsiyonel)</label>
+            <input name="imageLink" placeholder="Drive / Instagram / Website linki">
+            <div class="small">Backend dosya istiyorsa admin onayda manuel upload yapar.</div>
+          </div>
+
+          <div class="actions" style="justify-content:flex-start;margin-top:12px">
+            <button class="btn primary" type="submit">Başvuruyu Gönder</button>
+            <span class="small" id="status"></span>
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2 style="margin:0 0 6px 0">Kurallar</h2>
+        <p class="sub">Kısa ve net:</p>
+        <div class="grid" style="gap:10px;margin-top:12px">
+          <div class="kpi">
+            <p class="n" style="font-size:18px;margin:0">1) Gönder</p>
+            <p class="t">Başvuru Sheet’e düşer.</p>
+          </div>
+          <div class="kpi">
+            <p class="n" style="font-size:18px;margin:0">2) Bekle</p>
+            <p class="t">Admin onayı olmadan app’e girmez.</p>
+          </div>
+          <div class="kpi">
+            <p class="n" style="font-size:18px;margin:0">3) Yayın</p>
+            <p class="t">Onaylanınca işletme yayınlanır.</p>
+          </div>
+        </div>
+        <hr class="sep"/>
+        <div class="small">
+          <b>Gizlilik:</b> Bu panel menüde görünmez. URL’yi bilen erişir.<br/>
+          <b>Not:</b> Hatalı giriş yaparsan admin ile iletişime geç.
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const role = localStorage.getItem('naapsak_role');
+  const user = localStorage.getItem('naapsak_user') || '';
+  if(!role) window.location.href = './login.html';
+  document.getElementById('who').textContent = user ? user : 'user';
+  document.getElementById('logout').onclick = ()=>{ localStorage.clear(); window.location.href='./login.html'; };
+
+  const FORM_POST_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeX7_dA66pcN1vJclaXIER67bJpME4uGjOj6-eTeTVaXIcjuw/formResponse";
+  const ENTRY = {"submittedBy": "entry.475440397", "name": "entry.480529720", "category": "entry.1845613143", "section": "entry.1186988880", "mapsUrl": "entry.459276383", "phoneNumber": "entry.1057227281", "menuUrl": "entry.619561949", "description": "entry.1765276852", "badges": "entry.1549839770", "imageLink": "entry.2081705056"};
+
+  document.getElementById('f').addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const v = Object.fromEntries(new FormData(e.target).entries());
+
+    const required = ['name','category','section','mapsUrl','description'];
+    for(const k of required){
+      if(!String(v[k]||'').trim()){
+        document.getElementById('status').textContent = 'Zorunlu alan eksik: ' + k;
+        return;
+      }
+    }
+
+    const fd = new FormData();
+    fd.append(ENTRY.submittedBy, user);
+    fd.append(ENTRY.name, v.name);
+    fd.append(ENTRY.category, v.category);
+    fd.append(ENTRY.section, v.section);
+    fd.append(ENTRY.mapsUrl, v.mapsUrl);
+    fd.append(ENTRY.phoneNumber, v.phoneNumber || '');
+    fd.append(ENTRY.menuUrl, v.menuUrl || '');
+    fd.append(ENTRY.description, v.description);
+    fd.append(ENTRY.badges, v.badges || '');
+    fd.append(ENTRY.imageLink, v.imageLink || '');
+
+    document.getElementById('status').textContent = 'Gönderiliyor...';
+    try{
+      await fetch(FORM_POST_URL, { method:'POST', mode:'no-cors', body: fd });
+      document.getElementById('status').textContent = '✅ Başvuru alındı. Admin onayı bekleniyor.';
+      e.target.reset();
+    } catch(err){
+      document.getElementById('status').textContent = '❌ Gönderilemedi. Tekrar dene.';
+    }
+  });
+</script>
+</body>
+</html>
