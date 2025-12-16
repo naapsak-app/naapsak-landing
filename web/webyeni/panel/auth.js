@@ -1,32 +1,30 @@
 // panel/auth.js
-// Global fonksiyon export: login.html bununla kontrol ediyor.
-(function () {
-  // Mevcut USERS objen sende var (hash'ler). Aynen kalsın diye ellemiyorum.
-  // Aşağıdaki satırları, kendi USERS objenin ALTINA eklemen yeterli.
+(() => {
+  // ⚠️ MVP: Static site olduğu için bu gerçek güvenlik değil.
+  // Ama URL gizli + rol kontrolü için yeterli.
 
-  async function sha256Hex(str) {
-    const enc = new TextEncoder().encode(str);
-    const buf = await crypto.subtle.digest("SHA-256", enc);
-    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
-  }
+  const USERS = {
+    // partner hesaplar
+    "tech.clko":  { role: "partner", password: "Clko!2025" },
+    "tech.clq":   { role: "partner", password: "Clq!2025" },
+    "tech.clqo":  { role: "partner", password: "Clqo!2025" },
+    "tech.ekrem": { role: "partner", password: "Ekrem!2025" },
+    "tech.yunus": { role: "partner", password: "Yunus!2025" },
+    "tech.idil":  { role: "partner", password: "Idil!2025" },
+    "tech.eto":   { role: "partner", password: "Eto!2025" },
+    "tech.mirra": { role: "partner", password: "Mirra!2025" }, // ş yerine mirra
+    "tech.unal":  { role: "partner", password: "Unal!2025" },
 
-  // ✅ Login sayfasının aradığı fonksiyon:
+    // admin hesaplar
+    "adm.unal": { role: "admin", password: "AdmUnal!2025" },
+    "adm.clko": { role: "admin", password: "AdmClko!2025" },
+  };
+
+  // ✅ Login sayfasının aradığı fonksiyon
   window.naapsakAuthVerify = async (username, password) => {
-    try {
-      // USERS senin dosyada zaten var
-      const u = (typeof USERS !== "undefined") ? USERS[username] : null;
-      if (!u) return { ok: false };
-
-      const hash = await sha256Hex(username + ":" + password);
-      if (hash !== u.hash) return { ok: false };
-
-      // Senin auth.js'te admin = "admin", user = "user" var.
-      // Login sayfası admin değilse partner'a atıyor.
-      const role = (u.role === "admin") ? "admin" : "partner";
-      return { ok: true, role };
-    } catch (e) {
-      console.error("Auth error:", e);
-      return { ok: false };
-    }
+    const u = USERS[username];
+    if (!u) return { ok: false };
+    if (u.password !== password) return { ok: false };
+    return { ok: true, role: u.role };
   };
 })();
