@@ -114,29 +114,42 @@
   };
   document.getElementById('refresh').onclick = ()=>load();
 
-  function csvParse(text){
-    const rows=[];
-    let i=0, field='', inQ=false;
-    let r=[];
-    const pushField=()=>{ r.push(field); field=''; };
-    const pushRow=()=>{ rows.push(r); r=[]; };
-    while(i<text.length){
-      const c=text[i];
-      if(inQ){
-        if(c==='"' && text[i+1]==='"'){ field+='"'; i+=2; continue; }
-        if(c==='"'){ inQ=false; i++; continue; }
-        field+=c; i++; continue;
-      } else {
-        if(c==='"'){ inQ=true; i++; continue; }
-        if(c===','){ pushField(); i++; continue; }
-        if(c==='\n'){ pushField(); pushRow(); i++; continue; }
-        if(c==='\r'){ i++; continue; }
-        field+=c; i++; continue;
-      }
+  
+function detectDelim(text){
+  const line = (text.split(/?
+/).find(l => l.trim().length) || '');
+  const commas = (line.match(/,/g) || []).length;
+  const semis  = (line.match(/;/g) || []).length;
+  return semis > commas ? ';' : ',';
+}
+
+function csvParse(text){
+  const delim = detectDelim(text);
+  const rows=[];
+  let i=0, field='', inQ=false;
+  let r=[];
+  const pushField=()=>{ r.push(field); field=''; };
+  const pushRow=()=>{ rows.push(r); r=[]; };
+
+  while(i<text.length){
+    const c=text[i];
+
+    if(inQ){
+      if(c==='"' && text[i+1]==='"'){ field+='"'; i+=2; continue; }
+      if(c==='"'){ inQ=false; i++; continue; }
+      field+=c; i++; continue;
+    } else {
+      if(c==='"'){ inQ=true; i++; continue; }
+      if(c===delim){ pushField(); i++; continue; }
+      if(c==='
+'){ pushField(); pushRow(); i++; continue; }
+      if(c===''){ i++; continue; }
+      field+=c; i++; continue;
     }
-    pushField(); pushRow();
-    return rows.filter(x=>x.some(v=>String(v).trim()!==''));
   }
+  pushField(); pushRow();
+  return rows.filter(x=>x.some(v=>String(v).trim()!=='')); 
+}
 
   function toObj(headerRow, dataRow){
     const o={};

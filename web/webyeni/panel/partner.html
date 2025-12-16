@@ -70,6 +70,13 @@
             <div class="small">Birden fazlaysa virgülle ayır.</div>
           </div>
 
+
+<div class="field">
+  <label>Resim Yükle (opsiyonel)</label>
+  <input type="file" id="imgs" accept="image/*" multiple>
+  <div class="small" id="upStatus"></div>
+</div>
+
           <div class="field">
             <label>Resim Linki (opsiyonel)</label>
             <input name="imageLink" placeholder="Drive / Instagram / Website linki">
@@ -118,6 +125,43 @@
 
   const FORM_POST_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeX7_dA66pcN1vJclaXIER67bJpME4uGjOj6-eTeTVaXIcjuw/formResponse";
   const ENTRY = {"submittedBy": "entry.475440397", "name": "entry.480529720", "category": "entry.1845613143", "section": "entry.1186988880", "mapsUrl": "entry.459276383", "phoneNumber": "entry.1057227281", "menuUrl": "entry.619561949", "description": "entry.1765276852", "badges": "entry.1549839770", "imageLink": "entry.2081705056"};
+
+
+// 🔥 Resim yükleme (Cloudinary) - backend yok
+// 1) Cloudinary hesabında "Unsigned upload preset" aç
+// 2) Aşağıyı doldur
+const CLOUD_NAME = "dbpkrngd1";
+const UPLOAD_PRESET = "naapsak_unsigned";
+
+
+async function uploadToCloudinary(file){
+  const up = new FormData();
+  up.append("file", file);
+  up.append("upload_preset", UPLOAD_PRESET);
+
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
+    method: "POST",
+    body: up
+  });
+  const data = await res.json();
+  if(!res.ok) throw new Error(data?.error?.message || "Upload failed");
+  return data.secure_url;
+}
+
+async function uploadMany(files){
+  const urls = [];
+  let i = 0;
+  for(const f of files){
+    i++;
+    const s = document.getElementById("upStatus");
+    if(s) s.textContent = `Yükleniyor... (${i}/${files.length})`;
+    urls.push(await uploadToCloudinary(f));
+  }
+  const s = document.getElementById("upStatus");
+  if(s) s.textContent = `✅ Yüklendi: ${urls.length} foto`;
+  return urls;
+}
+
 
   document.getElementById('f').addEventListener('submit', async (e)=>{
     e.preventDefault();
