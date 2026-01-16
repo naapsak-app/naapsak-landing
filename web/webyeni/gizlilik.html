@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Naapsak | Gizlilik Politikası</title>
+  <link rel="icon" type="image/png" href="png/Naapsak Icon - Turuncu@2x.png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body { background: #fff; color: #333; opacity: 0; transition: opacity 0.4s ease; }
+
+    body.fade-in { opacity: 1; }
+    body.fade-out { opacity: 0; }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 10%;
+      background: #fff;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    header img { height: 50px; }
+    nav a {
+      margin: 0 18px;
+      text-decoration: none;
+      color: #000;
+      font-weight: 600;
+      font-size: 17px;
+    }
+    nav a.active { color: #ff6600; font-weight: 700; }
+
+    /* Content */
+    .content {
+      max-width: 950px;
+      margin: 120px auto 80px;
+      padding: 0 20px;
+    }
+    .content h1 {
+      font-size: 32px;
+      margin-bottom: 18px;
+      text-align: center;
+      color: #ff6600;
+    }
+    .content .desc {
+      text-align: center;
+      font-size: 15px;
+      color: #555;
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .tabs a {
+      border: 1px solid #ddd;
+      padding: 10px 14px;
+      border-radius: 10px;
+      text-decoration: none;
+      color: #000;
+      font-weight: 600;
+      background: #f9f9f9;
+      transition: 0.2s;
+    }
+    .tabs a:hover { background: #f0f0f0; transform: translateY(-1px); }
+
+    .paper {
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 22px;
+      background: #fff;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+    }
+    .paper h2 {
+      font-size: 22px;
+      margin: 6px 0 14px;
+      color: #111;
+    }
+    .paper h3 {
+      font-size: 17px;
+      margin: 18px 0 10px;
+      color: #111;
+    }
+    .paper p {
+      margin: 10px 0;
+      font-size: 15px;
+      color: #444;
+      line-height: 1.8;
+    }
+    .paper ul { margin: 10px 0 10px 18px; }
+    .paper li { margin: 8px 0; line-height: 1.7; color: #444; }
+
+    .divider { height: 1px; background: #eee; margin: 22px 0; }
+
+    /* Footer */
+    footer {
+      background: #f5f5f5;
+      padding: 20px 8%;
+      position: relative;
+      margin-top: 60px;
+    }
+    .footer-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .footer-left { max-width: 550px; }
+    .footer-logo-img { height: 50px; margin-bottom: 15px; }
+    .footer-left p { font-size: 15px; color: #444; margin-bottom: 16px; }
+    .footer-left a { color: #000; font-weight: 600; text-decoration: none; }
+    .footer-socials { display: flex; gap: 16px; margin-bottom: 12px; }
+    .footer-socials img {
+      width: 28px; height: 28px; filter: grayscale(100%); transition: 0.3s;
+    }
+    .footer-socials img:hover { filter: grayscale(0%); transform: scale(1.15); }
+    .footer-copy { font-size: 13px; color: #666; }
+    .footer-phone {
+      position: absolute;
+      bottom: 10px;
+      right: 5%;
+      width: 250px;
+      height: auto;
+    }
+    .footer-phone img { display: block; width: 100%; object-fit: cover; }
+
+    /* 📱 Responsive */
+    @media (max-width: 768px) {
+      header { flex-direction: column; padding: 10px 5%; }
+      nav a { margin: 6px; font-size: 15px; }
+      .content { margin-top: 100px; }
+      .content h1 { font-size: 24px; }
+      .footer-phone { display: none; }
+      .paper { padding: 16px; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header>
+    <a href="index.html"><img src="png/Naapsak Logo (2)-03.png" alt="Naapsak Logo"></a>
+    <nav>
+      <a href="index.html">Anasayfa</a>
+      <a href="hakkimizda.html">Hakkımızda</a>
+      <a href="kobi.html">Kobi</a>
+      <a href="sss.html">SSS</a>
+      <a href="gizlilik.html" class="active">Gizlilik Politikası</a>
+      <a href="bizeulasin.html">Bize Ulaşın</a>
+    </nav>
+  </header>
+
+  <!-- CONTENT -->
+  <section class="content">
+    <h1>Gizlilik Politikası</h1>
+    <p class="desc">
+      Bu sayfada <strong>KVKK Kişisel Verilerin Korunması, İşlenmesi ve Gizlilik Politikası</strong> ile
+      <strong>KVKK Aydınlatma Metni</strong> yer almaktadır.
+    </p>
+
+    <div class="tabs">
+      <a href="#kvkk">KVKK &amp; Gizlilik Politikası</a>
+      <a href="#aydinlatma">Aydınlatma Metni</a>
+    </div>
+
+    <div class="paper">
+      <h2 id="kvkk">KVKK &amp; Gizlilik Politikası</h2>
+
+      <!-- KVKK METNİ (HTML) -->
+      <p><strong>Kişisel Verilerin Korunması, İşlenmesi ve Gizlilik Politikası</strong></p>
+
+      <h3>I. GİRİŞ</h3>
+      <p>6698 Sayılı Kişisel Verilerin Korunması Kanunu (“Kanun”) 7 Nisan 2016 tarihinde yürürlüğe girmiştir. Kanun ile kişisel verinin tanımı yapılarak, bunların korunmasına ilişkin ilkeler ve bu verilerin işlenmesinde veri sorumlusu sıfatı taşıyanların uyacakları şartlara yer verilmiştir. Kanun’a göre kişisel veri, “kimliği belirli veya belirlenebilir gerçek kişi”lere ilişkin her türlü bilgidir. Kişisel verilerin işlenmesi ise “kişisel verilerin otomatik olan ya da herhangi bir veri kayıt sisteminin bir parçası olmak kaydıyla otomatik olmayan yollarla elde edilmesi, kaydedilmesi, depolanması, değiştirilmesi, üçüncü kişilerle paylaşılması ve yurtdışına transfer edilmesi dahil kişisel veriler üzerinde gerçekleştirilen her türlü işlemi” ifade etmektedir. Naapsak Elektronik İletişim Perakende Gıda Anonim Şirketi (“Naapsak”) Kanun’a uygunluğun Naapsak Platformları yönünden sağlanması amacıyla, ilgili mevzuatta yer alan kişisel verilerin korunması ve işlenmesine ilişkin ilkeleri benimseyerek gerekli idari ve teknik tedbirleri almaktadır.</p>
+
+      <h3>II. KİŞİSEL VERİLERİN İŞLENMESİ</h3>
+
+      <h3>II.I. KİŞİSEL VERİLERİN İŞLENMESİNE İLİŞKİN İLKELER</h3>
+      <p>Anayasa’nın m. 20/III kişisel verilerin ancak kanunda öngörülen hallerde veya kişinin açık rızasıyla işlenebileceği belirtilerek kişisel verilerin korunması güvence altına alınmıştır. Kişisel veri sahiplerine tanınan bu hak doğrultusunda Naapsak kişisel verileri ilgili mevzuatta belirtilen ilkeler doğrultusunda veya kişinin açık rızasının bulunduğu durumlarda aşağıdaki ilkelere uygun işlemektedir:</p>
+      <ul>
+        <li>Hukuka ve Dürüstlük Kuralına Uygun İşleme</li>
+        <li>Kişisel Verilerin Doğru ve Gerektiğinde Güncel Olmasını Sağlama</li>
+        <li>Belirli, Açık ve Meşru Amaçlarla İşleme</li>
+        <li>İşlendikleri Amaçla Bağlantılı, Sınırlı ve Ölçülü Olma</li>
+        <li>İlgili Mevzuatta Öngörülen veya İşlendikleri Amaç için Gerekli Olan Süre Kadar Muhafaza Etme</li>
+      </ul>
+
+      <h3>II.II. KİŞİSEL VERİLERİN İŞLENME ŞARTLARI VE AMAÇLARI</h3>
+      <p>Kişisel veriler, prensip olarak ancak kişisel veri sahibinin açık rızası bulunan hallerde işlenebilmektedir. Kanun’un 5. maddesinde kişisel veriler ile 6. maddesinde özel nitelikli kişisel verilerin işlenmesine ilişkin şartlara yer verilmiştir. Kanun, hukuka aykırı olarak işlendiğinde kişilerin mağduriyetine veya ayrımcılığa sebep olma riski taşıyan kişisel verileri “özel nitelikli kişisel veri” olarak belirlemiştir. Kanun’un 6. maddesinde özel nitelikli kişisel veriler sınırlı bir şekilde sayılmıştır.</p>
+      <p>Yukarıda politika kapsamında belirtilen şekilde kullanıcılarımızın özel nitelikli kişisel verilerini işlememekteyiz.</p>
+
+      <div class="divider"></div>
+
+      <h2 id="aydinlatma">Aydınlatma Metni</h2>
+
+      <!-- AYDINLATMA METNİ (HTML) -->
+      <h3>AYDINLATMA METNİ</h3>
+      <p>İşbu Kişisel Verilerin Korunması Kanunu Uyarınca Aydınlatma Metni (“Aydınlatma Metni”) veri sorumlusu sıfatıyla hareket eden Naapsak tarafından, 6698 sayılı Kişisel Verilerin Korunması Kanunu’na (“Kanun”) uygun olarak Naapsak kullanıcılarının kişisel verilerinin işlenmesine ilişkin açıklamalarda bulunmak ve bilgilendirmek amacıyla kaleme alınmıştır.</p>
+
+      <h3>1. Toplanan Kişisel Veriler</h3>
+      <p>Aydınlatma Metni kapsamında kategorilendirilen kişisel verileriniz aşağıdaki gibidir;</p>
+      <ul>
+        <li><strong>Kullanıcı Üyelik (Profil) Bilgisi:</strong> Kullanıcı adı (isim - soyisim), doğum tarihi (eğer ilettiyseniz).</li>
+        <li><strong>İletişim Bilgisi:</strong> Telefon numarası, adres, e-mail adresi</li>
+        <li><strong>Lokasyon Verisi:</strong> Uygulamayı kullanırken işaretlediğiniz ve/veya cihaz bazlı aktive ettiğiniz lokasyon</li>
+        <li><strong>Müşteri İşlem Bilgisi:</strong> Ürün/hizmet kullanım kayıtları ve günlük verileri (IP, tarayıcı türü, erişim tarih-saat vb.)</li>
+        <li><strong>İşlem Güvenliği Bilgisi:</strong> IP adresi, sistem giriş bilgileri, log kayıtları vb.</li>
+        <li><strong>Finansal Bilgi:</strong> Ödeme kayıtları ve maskeli kart bilgisi vb.</li>
+        <li><strong>Görsel ve İşitsel Kayıtlar:</strong> Canlı yardım/telefon görüşmeleri, e-posta yazışmaları vb.</li>
+        <li><strong>Hukuki İşlem Bilgisi:</strong> Hukuki süreç ve uyum kapsamında işlenen veriler</li>
+        <li><strong>Pazarlama Bilgisi:</strong> Kampanya/indirim kullanımları, favoriler, alışkanlıklar vb.</li>
+        <li><strong>Risk Yönetimi Bilgisi:</strong> Ticari itibarın korunması amacıyla toplanan bilgiler</li>
+      </ul>
+
+      <p><strong>Özel nitelikli kişisel veriler</strong> (ırk, etnik köken, siyasi düşünce, sağlık vb.) Naapsak tarafından talep edilmez ve işlenmez. Bu tür verileri paylaşmamanız beklenir.</p>
+
+      <h3>2. Kişisel Verilerin İşlenme Amacı</h3>
+      <p>Yukarıda belirtilen kişisel verileriniz, ilgili ürün ve hizmetlerin sunulması, geliştirilmesi, operasyon süreçlerinin yürütülmesi, kullanıcı deneyiminin iyileştirilmesi, güvenliğin sağlanması ve mevzuattan doğan yükümlülüklerin yerine getirilmesi amaçlarıyla sınırlı ve ölçülü olacak şekilde işlenebilecektir.</p>
+
+      <p style="margin-top:18px; font-size: 13px; opacity: .75;">
+        Not: Bu sayfa taslak metinlerin web formatına aktarımıdır. Nihai metin onaylı dokümanla uyumlu olmalıdır.
+      </p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-left">
+        <img src="png/Naapsak Logo (2)-03.png" alt="Naapsak Logo" class="footer-logo-img">
+        <p>Ne yapmak istediğini bilmeyenler için akıllı bir uygulama.<br>
+        Bize ulaş: <a href="mailto:iletisim@naapsakapp.com">iletisim@naapsakapp.com</a></p>
+        <div class="footer-socials">
+          <a href="https://www.linkedin.com/company/naapsak/" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn"></a>
+          <a href="https://www.instagram.com/naapsak.app?igsh=MXB5djB1c3o5OTlmbA==" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram"></a>
+          <a href="https://www.tiktok.com/@naapsak.app?_t=ZS-8yxfJ4D1YCP&_r=1" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok"></a>
+          <a href="https://x.com/naapsakmobile?s=21" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968958.png" alt="X"></a>
+        </div>
+        <p class="footer-copy">© 2025 Naapsak | Tüm Hakları Saklıdır</p>
+      </div>
+    </div>
+    <div class="footer-phone">
+      <img src="png/footertelefon.png" alt="Naapsak App">
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Fade in/out
+    document.addEventListener("DOMContentLoaded", () => {
+      document.body.classList.add("fade-in");
+    });
+    document.querySelectorAll("a").forEach(link => {
+      if (link.hostname === window.location.hostname) {
+        link.addEventListener("click", e => {
+          e.preventDefault();
+          const url = link.getAttribute("href");
+          document.body.classList.add("fade-out");
+          setTimeout(() => { window.location.href = url; }, 400);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
