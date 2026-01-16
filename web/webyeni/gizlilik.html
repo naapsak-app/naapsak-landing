@@ -549,45 +549,53 @@
   </footer>
 
 <script>
-  // Fade in
+  const HEADER_OFFSET = 120; // header yüksekliği (gerekirse 100-140 arası oyna)
+
+  function scrollToHash(hash, smooth = true) {
+    if (!hash) return;
+    const target = document.querySelector(hash);
+    if (!target) return;
+
+    const y = target.getBoundingClientRect().top + window.pageYOffset - HEADER_OFFSET;
+    window.scrollTo({ top: y, behavior: smooth ? "smooth" : "auto" });
+  }
+
+  // Fade in + sayfa hash ile açıldıysa konumlandır
   document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.add("fade-in");
     document.body.classList.remove("fade-out");
 
-    // Sayfa hash ile açıldıysa (#kvkk / #aydinlatma) otomatik scroll
     if (window.location.hash) {
-      const target = document.querySelector(window.location.hash);
-      if (target) {
-        setTimeout(() => {
-          target.scrollIntoView({ behavior: "smooth", block: "start" });
-        }, 150);
-      }
+      // render bitsin diye az beklet
+      setTimeout(() => scrollToHash(window.location.hash, false), 50);
     }
   });
 
-  // Link handler (hash linkleri bozma + sayfa geçişinde fade-out)
+  // Hash değişince (back/forward) doğru scroll
+  window.addEventListener("hashchange", () => {
+    scrollToHash(window.location.hash, true);
+  });
+
+  // Link handler: hash linkleri offset ile kaydır, sayfa geçişlerinde fade-out
   document.querySelectorAll("a").forEach(link => {
     const href = link.getAttribute("href");
-
-    // Boş/undefined veya javascript: gibi şeyleri elleme
     if (!href || href.startsWith("javascript:")) return;
 
-    // Sayfa içi HASH link: fade-out yapma, sadece smooth scroll
+    // #kvkk gibi sayfa içi link
     if (href.startsWith("#")) {
       link.addEventListener("click", (e) => {
         e.preventDefault();
-        const target = document.querySelector(href);
-        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
         history.pushState(null, "", href);
+        scrollToHash(href, true);
       });
       return;
     }
 
-    // Aynı sayfa içinde tam path + hash gelirse: gizlilik.html#kvkk gibi
-    // Fade-out yapma, scroll ile çöz
+    // URL parse
     try {
       const urlObj = new URL(href, window.location.href);
 
+      // Aynı sayfa + hash (gizlilik.html#kvkk gibi)
       if (
         urlObj.origin === window.location.origin &&
         urlObj.pathname === window.location.pathname &&
@@ -595,14 +603,13 @@
       ) {
         link.addEventListener("click", (e) => {
           e.preventDefault();
-          const target = document.querySelector(urlObj.hash);
-          if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
           history.pushState(null, "", urlObj.hash);
+          scrollToHash(urlObj.hash, true);
         });
         return;
       }
 
-      // Normal iç linkler (aynı domain): fade-out uygula
+      // Normal iç linkler (aynı domain): fade-out + yönlendir
       if (urlObj.origin === window.location.origin) {
         link.addEventListener("click", (e) => {
           e.preventDefault();
@@ -611,7 +618,7 @@
         });
       }
     } catch (err) {
-      // URL parse edemiyorsa elleme
+      // parse edemezse dokunma
     }
   });
 </script>
