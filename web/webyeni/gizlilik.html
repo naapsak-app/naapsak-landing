@@ -554,36 +554,45 @@
   document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.add("fade-in");
     document.body.classList.remove("fade-out");
+
+    // Sayfa hash ile açıldıysa (#kvkk / #aydinlatma) otomatik scroll
+    if (window.location.hash) {
+      const target = document.querySelector(window.location.hash);
+      if (target) {
+        setTimeout(() => {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 150);
+      }
+    }
   });
 
-  // Link handler (hash linkleri bozma!)
+  // Link handler (hash linkleri bozma + sayfa geçişinde fade-out)
   document.querySelectorAll("a").forEach(link => {
     const href = link.getAttribute("href");
 
     // Boş/undefined veya javascript: gibi şeyleri elleme
     if (!href || href.startsWith("javascript:")) return;
 
-    // HASH link (sayfa içi): fade-out yapma, sadece scroll yap
+    // Sayfa içi HASH link: fade-out yapma, sadece smooth scroll
     if (href.startsWith("#")) {
       link.addEventListener("click", (e) => {
         e.preventDefault();
         const target = document.querySelector(href);
         if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
-        // URL hash güncelle
         history.pushState(null, "", href);
       });
       return;
     }
 
     // Aynı sayfa içinde tam path + hash gelirse: gizlilik.html#kvkk gibi
-    // Bunu da fade-out yapmadan scroll ile çöz
+    // Fade-out yapma, scroll ile çöz
     try {
       const urlObj = new URL(href, window.location.href);
 
       if (
+        urlObj.origin === window.location.origin &&
         urlObj.pathname === window.location.pathname &&
-        urlObj.hash &&
-        urlObj.origin === window.location.origin
+        urlObj.hash
       ) {
         link.addEventListener("click", (e) => {
           e.preventDefault();
@@ -594,7 +603,7 @@
         return;
       }
 
-      // Normal iç linkler (sayfa değişecek): fade-out uygula
+      // Normal iç linkler (aynı domain): fade-out uygula
       if (urlObj.origin === window.location.origin) {
         link.addEventListener("click", (e) => {
           e.preventDefault();
