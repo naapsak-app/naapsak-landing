@@ -156,7 +156,7 @@
     <a href="index.html"><img src="png/Naapsak Logo (2)-03.png" alt="Naapsak Logo"></a>
     <nav>
       <a href="index.html">Anasayfa</a>
-      <a href="hakkimizda.html">Hakkımızda</a>
+      <a href="hakkımızda.html">Hakkımızda</a>
       <a href="gizlilik.html" class="active">Gizlilik Politikası</a>
       <a href="kobi.html">Kobi</a>
       <a href="sss.html">SSS</a>
@@ -549,22 +549,63 @@
     </div>
   </footer>
 
-  <!-- Scripts -->
-  <script>
-    // Fade in/out
-    document.addEventListener("DOMContentLoaded", () => {
-      document.body.classList.add("fade-in");
-    });
-    document.querySelectorAll("a").forEach(link => {
-      if (link.hostname === window.location.hostname) {
-        link.addEventListener("click", e => {
+<script>
+  // Fade in
+  document.addEventListener("DOMContentLoaded", () => {
+    document.body.classList.add("fade-in");
+    document.body.classList.remove("fade-out");
+  });
+
+  // Link handler (hash linkleri bozma!)
+  document.querySelectorAll("a").forEach(link => {
+    const href = link.getAttribute("href");
+
+    // Boş/undefined veya javascript: gibi şeyleri elleme
+    if (!href || href.startsWith("javascript:")) return;
+
+    // HASH link (sayfa içi): fade-out yapma, sadece scroll yap
+    if (href.startsWith("#")) {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+        // URL hash güncelle
+        history.pushState(null, "", href);
+      });
+      return;
+    }
+
+    // Aynı sayfa içinde tam path + hash gelirse: gizlilik.html#kvkk gibi
+    // Bunu da fade-out yapmadan scroll ile çöz
+    try {
+      const urlObj = new URL(href, window.location.href);
+
+      if (
+        urlObj.pathname === window.location.pathname &&
+        urlObj.hash &&
+        urlObj.origin === window.location.origin
+      ) {
+        link.addEventListener("click", (e) => {
           e.preventDefault();
-          const url = link.getAttribute("href");
+          const target = document.querySelector(urlObj.hash);
+          if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+          history.pushState(null, "", urlObj.hash);
+        });
+        return;
+      }
+
+      // Normal iç linkler (sayfa değişecek): fade-out uygula
+      if (urlObj.origin === window.location.origin) {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
           document.body.classList.add("fade-out");
-          setTimeout(() => { window.location.href = url; }, 400);
+          setTimeout(() => { window.location.href = urlObj.href; }, 350);
         });
       }
-    });
-  </script>
+    } catch (err) {
+      // URL parse edemiyorsa elleme
+    }
+  });
+</script>
 </body>
 </html>
